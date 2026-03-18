@@ -282,13 +282,9 @@ function renderFrame(content, step, options = {}) {
         <div class="progress-bar" style="width: ${progress}%;"></div>
       </div>
       <h2 class="step-title">${escapeHtml(options.title || step?.label || '完了')}</h2>
-      <p class="description">${escapeHtml(options.description || '')}</p>
-      ${options.notice ? `<p class="notice">${escapeHtml(options.notice)}</p>` : ''}
+      ${options.description ? `<p class="description">${escapeHtml(options.description)}</p>` : ''}
       ${content}
-      <section class="summary-section">
-        <h2>記録サマリー</h2>
-        ${renderSummary()}
-      </section>
+      <section class="summary-section">${renderSummary()}</section>
       ${renderNavigation(step)}
     </section>
   `;
@@ -348,9 +344,7 @@ function renderChoiceStep(step) {
 
   renderFrame(content, step, {
     typeLabel: '予告入力',
-    title: step.label,
-    description: step.description,
-    notice: selected ? `現在の選択: ${selected}` : 'まだ選択されていません。'
+    title: step.label
   });
 }
 
@@ -425,30 +419,26 @@ function renderReferences(referenceKeys) {
 function renderSummary() {
   const items = summaryConfig
     .map((item) => {
-      const value = state.answers[item.key];
-      const emptyClass = value ? '' : 'empty';
-      return `
-        <div class="summary-item">
-          <span class="summary-label">${escapeHtml(item.label)}</span>
-          <strong class="summary-value ${emptyClass}">${escapeHtml(value || '未入力')}</strong>
-        </div>
-      `;
+      const value = state.answers[item.key] || '未';
+      const emptyClass = value === '未' ? 'empty' : '';
+      return `<span class="summary-chip ${emptyClass}">${escapeHtml(item.label)}:${escapeHtml(value)}</span>`;
     })
     .join('');
 
-  return `<div class="summary-grid">${items}</div>`;
+  return `<div class="summary-inline">${items}</div>`;
 }
 
 function renderNavigation(step) {
   const onComplete = !step;
-  const nextLabel = onComplete ? '完了' : step.type === 'choice' ? '次へ' : (step.actionLabel || '終わった');
+  const isChoice = step?.type === 'choice';
+  const nextLabel = onComplete ? '完了' : (step.actionLabel || '終わった');
   const nextDisabled = onComplete || !canGoNext(step);
 
   return `
-    <div class="nav-row">
+    <div class="nav-row ${isChoice ? 'choice-nav' : ''}">
       <button type="button" class="secondary-button" data-action="prev" ${state.stepIndex === 0 ? 'disabled' : ''}>前へ</button>
       <button type="button" class="danger-button" data-action="reset">リセット</button>
-      <button type="button" class="primary-button" data-action="next" ${nextDisabled ? 'disabled' : ''}>${escapeHtml(nextLabel)}</button>
+      ${isChoice ? '' : `<button type="button" class="primary-button" data-action="next" ${nextDisabled ? 'disabled' : ''}>${escapeHtml(nextLabel)}</button>`}
     </div>
   `;
 }
@@ -480,7 +470,7 @@ function bindEvents(step) {
 function selectChoice(answerKey, value) {
   state.answers[answerKey] = value;
   saveState();
-  render();
+  goNext();
 }
 
 function goNext(step = getStep()) {

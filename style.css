@@ -60,14 +60,13 @@ button {
   border: 1px solid rgba(140, 156, 214, 0.15);
   border-radius: 20px;
   box-shadow: var(--shadow);
-  padding: 18px;
+  padding: 14px;
   backdrop-filter: blur(6px);
 }
 
 .meta-row,
 .reference-row,
 .nav-row,
-.summary-grid,
 .choice-grid {
   display: grid;
   gap: 12px;
@@ -85,8 +84,7 @@ button {
   padding: 12px;
 }
 
-.meta-chip .label,
-.summary-label {
+.meta-chip .label {
   display: block;
   color: var(--muted);
   font-size: 0.82rem;
@@ -99,7 +97,7 @@ button {
   border-radius: 999px;
   overflow: hidden;
   border: 1px solid var(--border);
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 
 .progress-bar {
@@ -115,27 +113,27 @@ button {
 }
 
 .description {
-  margin: 0 0 18px;
+  margin: 0 0 14px;
   color: var(--muted);
   line-height: 1.5;
 }
 
 .visual-box {
-  min-height: 170px;
+  min-height: 132px;
   background: linear-gradient(180deg, rgba(26, 33, 64, 0.92), rgba(11, 16, 32, 0.95));
   border: 1px solid var(--border);
   border-radius: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 18px;
-  margin-bottom: 18px;
+  padding: 14px;
+  margin-bottom: 14px;
   text-align: center;
 }
 
 .visual-box img {
   max-width: 100%;
-  max-height: 240px;
+  max-height: 200px;
   border-radius: 14px;
   object-fit: contain;
 }
@@ -143,7 +141,7 @@ button {
 .placeholder {
   width: 100%;
   display: grid;
-  gap: 10px;
+  gap: 8px;
   justify-items: center;
 }
 
@@ -171,19 +169,20 @@ button {
 
 .choice-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin-bottom: 18px;
+  gap: 10px;
+  margin-bottom: 14px;
 }
 
 .choice-button,
 .primary-button,
 .secondary-button,
 .danger-button {
-  min-height: 54px;
-  border-radius: 16px;
+  min-height: 52px;
+  border-radius: 14px;
   border: 1px solid var(--border);
   background: var(--panel-strong);
   color: var(--text);
-  padding: 14px 16px;
+  padding: 12px 14px;
   cursor: pointer;
   transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
@@ -223,52 +222,57 @@ button {
 
 .reference-row {
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 
-.reference-card,
-.summary-item {
+.reference-card {
   background: rgba(8, 13, 28, 0.9);
   border: 1px solid rgba(156, 168, 214, 0.18);
   border-radius: 14px;
-  padding: 12px;
+  padding: 10px 12px;
 }
 
-.reference-card strong,
-.summary-value {
+.reference-card strong {
   display: block;
   margin-top: 4px;
 }
 
 .summary-section {
-  margin-top: 18px;
-  padding-top: 18px;
-  border-top: 1px solid rgba(156, 168, 214, 0.15);
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(156, 168, 214, 0.12);
 }
 
-.summary-section h2 {
-  margin: 0 0 12px;
-  font-size: 1rem;
+.summary-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
-.summary-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+.summary-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(8, 13, 28, 0.9);
+  border: 1px solid rgba(156, 168, 214, 0.18);
+  color: var(--text);
+  font-size: 0.78rem;
+  line-height: 1.2;
 }
 
-.summary-value.empty {
+.summary-chip.empty {
   color: var(--warning);
 }
 
 .nav-row {
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-top: 20px;
+  margin-top: 14px;
 }
 
-.notice {
-  margin-top: -6px;
-  margin-bottom: 16px;
-  color: var(--warning);
-  font-size: 0.9rem;
+.choice-nav {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .complete-box {
@@ -292,12 +296,11 @@ button {
   }
 
   .card {
-    padding: 16px;
+    padding: 14px;
     border-radius: 18px;
   }
 
   .choice-grid,
-  .summary-grid,
   .nav-row,
   .meta-row {
     grid-template-columns: 1fr;

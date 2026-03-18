@@ -278,6 +278,19 @@ function renderFrame(content, step, options = {}) {
 
   app.innerHTML = `
     <section class="card">
+<<<<<<< ours
+=======
+      <div class="meta-row">
+        <div class="meta-chip">
+          <span class="label">現在フェーズ</span>
+          <strong>${stepNumber} / ${total}</strong>
+        </div>
+        <div class="meta-chip">
+          <span class="label">フェーズ種別</span>
+          <strong>${escapeHtml(options.typeLabel || '完了')}</strong>
+        </div>
+      </div>
+>>>>>>> theirs
       <div class="progress" aria-label="進行状況">
         <div class="progress-bar" style="width: ${progress}%;"></div>
       </div>

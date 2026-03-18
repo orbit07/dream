@@ -279,7 +279,10 @@ function renderFrame(content, step, options = {}) {
   app.innerHTML = `
     <section class="card">
 <<<<<<< ours
+<<<<<<< ours
 =======
+=======
+>>>>>>> theirs
       <div class="meta-row">
         <div class="meta-chip">
           <span class="label">現在フェーズ</span>
@@ -290,6 +293,9 @@ function renderFrame(content, step, options = {}) {
           <strong>${escapeHtml(options.typeLabel || '完了')}</strong>
         </div>
       </div>
+<<<<<<< ours
+>>>>>>> theirs
+=======
 >>>>>>> theirs
       <div class="progress" aria-label="進行状況">
         <div class="progress-bar" style="width: ${progress}%;"></div>

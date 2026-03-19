@@ -58,6 +58,15 @@ const composite37Map = {
   B_down: { title: '③⑦複合: B + 下', text: 'B パターンで下方向処理です。', image: '', icon: '🅱️' }
 };
 
+const p2SwapMap = {
+  '1': { text: 'Bと入れ替わる', icon: '🔄' },
+  B: { text: '1と入れ替わる', icon: '🔄' },
+  '4': { text: 'Cと入れ替わる', icon: '🔄' },
+  C: { text: '4と入れ替わる', icon: '🔄' }
+};
+
+const p2SwapTargets = ['1', 'B', '4', 'C'];
+
 const steps = [
   {
     id: 'step-p1',
@@ -80,6 +89,17 @@ const steps = [
     placeholderTitle: '②予告イメージ',
     placeholderText: '8パターンから該当するものを選択します。',
     choices: ['1', 'A', '2', 'B', 'C', '4', 'D', '3']
+  },
+  {
+    id: 'step-a2-swap',
+    type: 'action',
+    label: '②入れ替え確認',
+    description: '②予告の結果、入れ替えが発生します。内容を確認してから進んでください。',
+    image: 'images/a2-swap.png',
+    placeholderTitle: '②入れ替え確認',
+    placeholderText: '②予告の位置関係に応じた入れ替え内容を表示します。',
+    references: ['p2'],
+    actionLabel: '終わった'
   },
   {
     id: 'step-p3',
@@ -224,6 +244,7 @@ function loadState() {
     const parsed = JSON.parse(saved);
     state.stepIndex = clampStepIndex(parsed.stepIndex);
     state.answers = { ...createInitialAnswers(), ...(parsed.answers || {}) };
+    state.stepIndex = getNormalizedStepIndex(state.stepIndex);
   } catch (error) {
     resetState(false);
   }
@@ -248,6 +269,60 @@ function escapeHtml(value) {
 
 function getStep() {
   return steps[state.stepIndex];
+}
+
+function shouldShowP2SwapStep() {
+  return p2SwapTargets.includes(state.answers.p2);
+}
+
+function shouldSkipStep(step) {
+  return step?.id === 'step-a2-swap' && !shouldShowP2SwapStep();
+}
+
+function getNormalizedStepIndex(index) {
+  if (index >= steps.length) {
+    return steps.length;
+  }
+
+  if (index <= 0) {
+    return 0;
+  }
+
+  let nextIndex = index;
+  while (nextIndex < steps.length && shouldSkipStep(steps[nextIndex])) {
+    nextIndex += 1;
+  }
+
+  if (nextIndex < steps.length) {
+    return nextIndex;
+  }
+
+  nextIndex = index - 1;
+  while (nextIndex >= 0 && shouldSkipStep(steps[nextIndex])) {
+    nextIndex -= 1;
+  }
+
+  return clampStepIndex(nextIndex);
+}
+
+function getNextStepIndex(currentIndex = state.stepIndex) {
+  let nextIndex = currentIndex + 1;
+  while (nextIndex < steps.length && shouldSkipStep(steps[nextIndex])) {
+    nextIndex += 1;
+  }
+  return clampStepIndex(nextIndex);
+}
+
+function getPrevStepIndex(currentIndex = state.stepIndex) {
+  let prevIndex = currentIndex - 1;
+  while (prevIndex >= 0 && shouldSkipStep(steps[prevIndex])) {
+    prevIndex -= 1;
+  }
+  return clampStepIndex(prevIndex);
+}
+
+function getP2SwapDisplay() {
+  return p2SwapMap[state.answers.p2] || null;
 }
 
 function render() {
@@ -362,9 +437,18 @@ function renderChoiceStep(step) {
 }
 
 function renderActionStep(step) {
+  const swapDisplay = step.id === 'step-a2-swap' ? getP2SwapDisplay() : null;
   const references = renderReferences(step.references || []);
   const content = `
     ${renderVisual(step, step.placeholderTitle, step.placeholderText, '⚔️')}
+    ${swapDisplay ? `
+      <div class="reference-row">
+        <div class="reference-card">
+          <span class="label">入れ替え内容 ${escapeHtml(swapDisplay.icon || '🔄')}</span>
+          <strong>${escapeHtml(swapDisplay.text)}</strong>
+        </div>
+      </div>
+    ` : ''}
     ${references}
   `;
 
@@ -395,7 +479,7 @@ function renderComplete() {
   const content = `
     <div class="complete-box">
       <span class="complete-badge">完了</span>
-      <p class="description">全14フェーズが完了しました。必要なら前へ戻って内容を再確認するか、リセットして最初からやり直せます。</p>
+      <p class="description">全フェーズが完了しました。必要なら前へ戻って内容を再確認するか、リセットして最初からやり直せます。</p>
     </div>
   `;
 
@@ -488,13 +572,13 @@ function goNext(step = getStep()) {
     return;
   }
 
-  state.stepIndex = clampStepIndex(state.stepIndex + 1);
+  state.stepIndex = getNextStepIndex();
   saveState();
   render();
 }
 
 function goPrev() {
-  state.stepIndex = clampStepIndex(state.stepIndex - 1);
+  state.stepIndex = getPrevStepIndex();
   saveState();
   render();
 }

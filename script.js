@@ -6,6 +6,7 @@ const summaryConfig = [
   { key: 'p3', label: '③' },
   { key: 'p4', label: '④' },
   { key: 'p5', label: '⑤' },
+  { key: 'p6', label: '⑥' },
   { key: 'p7', label: '⑦' }
 ];
 
@@ -16,6 +17,7 @@ function createInitialAnswers() {
     p3: null,
     p4: null,
     p5: null,
+    p6: null,
     p7: null
   };
 }
@@ -23,39 +25,6 @@ function createInitialAnswers() {
 const state = {
   stepIndex: 0,
   answers: createInitialAnswers()
-};
-
-const defaultCompositeDisplay = {
-  title: '分岐未設定',
-  text: '参照キーに対応する表示が未設定です。入力内容を確認してください。',
-  image: '',
-  icon: '⚠️'
-};
-
-const composite24Map = {
-  '1_left': { title: '②④複合: 1 + 左', text: '1 と 左 の組み合わせです。左優先で処理。', image: '', icon: '↖️' },
-  '1_right': { title: '②④複合: 1 + 右', text: '1 と 右 の組み合わせです。右優先で処理。', image: '', icon: '↗️' },
-  '2_left': { title: '②④複合: 2 + 左', text: '2 と 左 の組み合わせです。左へ寄って解決。', image: '', icon: '⬅️' },
-  '2_right': { title: '②④複合: 2 + 右', text: '2 と 右 の組み合わせです。右へ寄って解決。', image: '', icon: '➡️' },
-  '3_left': { title: '②④複合: 3 + 左', text: '3 と 左 の組み合わせです。散開後に左処理。', image: '', icon: '🌀' },
-  '3_right': { title: '②④複合: 3 + 右', text: '3 と 右 の組み合わせです。散開後に右処理。', image: '', icon: '🌀' },
-  '4_left': { title: '②④複合: 4 + 左', text: '4 と 左 の組み合わせです。中央基準で左回避。', image: '', icon: '🛡️' },
-  '4_right': { title: '②④複合: 4 + 右', text: '4 と 右 の組み合わせです。中央基準で右回避。', image: '', icon: '🛡️' },
-  'A_left': { title: '②④複合: A + 左', text: 'A と 左 の組み合わせです。端スタート想定。', image: '', icon: '🌙' },
-  'A_right': { title: '②④複合: A + 右', text: 'A と 右 の組み合わせです。端スタート想定。', image: '', icon: '🌙' },
-  'B_left': { title: '②④複合: B + 左', text: 'B と 左 の組み合わせです。ノックバック後に左。', image: '', icon: '💨' },
-  'B_right': { title: '②④複合: B + 右', text: 'B と 右 の組み合わせです。ノックバック後に右。', image: '', icon: '💨' },
-  'C_left': { title: '②④複合: C + 左', text: 'C と 左 の組み合わせです。内周から左抜け。', image: '', icon: '🔷' },
-  'C_right': { title: '②④複合: C + 右', text: 'C と 右 の組み合わせです。内周から右抜け。', image: '', icon: '🔷' },
-  'D_left': { title: '②④複合: D + 左', text: 'D と 左 の組み合わせです。最後に左へ寄る。', image: '', icon: '✨' },
-  'D_right': { title: '②④複合: D + 右', text: 'D と 右 の組み合わせです。最後に右へ寄る。', image: '', icon: '✨' }
-};
-
-const composite37Map = {
-  A_up: { title: '③⑦複合: A + 上', text: 'A パターンで上方向処理です。', image: '', icon: '⬆️' },
-  A_down: { title: '③⑦複合: A + 下', text: 'A パターンで下方向処理です。', image: '', icon: '⬇️' },
-  B_up: { title: '③⑦複合: B + 上', text: 'B パターンで上方向処理です。', image: '', icon: '🅱️' },
-  B_down: { title: '③⑦複合: B + 下', text: 'B パターンで下方向処理です。', image: '', icon: '🅱️' }
 };
 
 const p2SwapMap = {
@@ -67,37 +36,48 @@ const p2SwapMap = {
 
 const p2SwapTargets = ['1', 'B', '4', 'C'];
 
+const p5ActionMap = {
+  '炎': '動かない',
+  '風': '対岸へ',
+  '土': '避ける',
+  '闇': '南へ'
+};
+
+const p1FirstMap = {
+  '十字': 'A',
+  'X字': '1'
+};
+
+const p1SecondMap = {
+  '十字': '1',
+  'X字': 'A'
+};
+
 const steps = [
   {
     id: 'step-p1',
     type: 'choice',
     label: '①予告',
-    description: '①の予告パターンを選択してください。',
     answerKey: 'p1',
     image: 'images/p1.png',
-    placeholderTitle: '①予告イメージ',
-    placeholderText: '画像未配置でも、ここで選択内容を確認しながら進行できます。',
+    placeholderTitle: '①',
     choices: ['十字', 'X字']
   },
   {
     id: 'step-p2',
     type: 'choice',
     label: '②予告',
-    description: '②の予告パターンを選択してください。',
     answerKey: 'p2',
     image: 'images/p2.png',
-    placeholderTitle: '②予告イメージ',
-    placeholderText: '8パターンから該当するものを選択します。',
+    placeholderTitle: '②',
     choices: ['1', 'A', '2', 'B', 'C', '4', 'D', '3']
   },
   {
     id: 'step-a2-swap',
     type: 'action',
-    label: '②入れ替え確認',
-    description: '②予告の結果、入れ替えが発生します。内容を確認してから進んでください。',
+    label: '②発動',
     image: 'images/a2-swap.png',
-    placeholderTitle: '②入れ替え確認',
-    placeholderText: '②予告の位置関係に応じた入れ替え内容を表示します。',
+    placeholderTitle: '②',
     references: ['p2'],
     actionLabel: '終わった'
   },
@@ -105,32 +85,26 @@ const steps = [
     id: 'step-p3',
     type: 'choice',
     label: '③予告',
-    description: '③の予告パターンを選択してください。',
     answerKey: 'p3',
     image: 'images/p3.png',
-    placeholderTitle: '③予告イメージ',
-    placeholderText: '後続の③発動・③⑦複合発動で参照されます。',
-    choices: ['A', 'B']
+    placeholderTitle: '③',
+    choices: ['1-2安置', '3-4安置']
   },
   {
     id: 'step-p4',
     type: 'choice',
     label: '④予告',
-    description: '④の予告方向を選択してください。',
     answerKey: 'p4',
     image: 'images/p4.png',
-    placeholderTitle: '④予告イメージ',
-    placeholderText: '②④複合発動に備えて方向を記録します。',
-    choices: ['left', 'right']
+    placeholderTitle: '④',
+    choices: ['円範囲から', '頭割りから']
   },
   {
     id: 'step-a3',
     type: 'action',
     label: '③発動',
-    description: '③予告で記録した内容を確認して、発動が終わったら進んでください。',
     image: 'images/a3.png',
-    placeholderTitle: '③発動',
-    placeholderText: '参照値を見ながら、安全処理を確認します。',
+    placeholderTitle: '③',
     references: ['p3'],
     actionLabel: '終わった'
   },
@@ -138,93 +112,87 @@ const steps = [
     id: 'step-p5',
     type: 'choice',
     label: '⑤予告',
-    description: '⑤の予告パターンを選択してください。',
     answerKey: 'p5',
     image: 'images/p5.png',
-    placeholderTitle: '⑤予告イメージ',
-    placeholderText: '後続の⑤発動に備えて記録します。',
-    choices: ['内側', '外側']
+    placeholderTitle: '⑤',
+    choices: ['炎', '風', '土', '闇']
   },
   {
     id: 'step-c24',
     type: 'composite',
-    label: '②④複合発動',
-    description: '②と④の記録内容から、今回の複合発動表示を確認してください。',
+    label: '②④発動',
     compositeKey: '24',
-    actionLabel: '終わった',
-    references: ['p2', 'p4']
+    references: ['p2', 'p4'],
+    actionLabel: '終わった'
   },
   {
     id: 'step-a5',
     type: 'action',
     label: '⑤発動',
-    description: '⑤予告の記録を確認して、発動が終わったら進んでください。',
     image: 'images/a5.png',
-    placeholderTitle: '⑤発動',
-    placeholderText: '⑤の結果に応じた処理確認用です。',
+    placeholderTitle: '⑤',
     references: ['p5'],
     actionLabel: '終わった'
   },
   {
     id: 'step-a6',
     type: 'action',
-    label: '⑥予告なし発動',
-    description: 'このフェーズは予告入力なしです。発動が終わったら進んでください。',
+    label: '発動（予告なし）',
     image: 'images/a6.png',
-    placeholderTitle: '⑥発動',
-    placeholderText: '固定処理フェーズです。入力は不要です。',
+    placeholderTitle: '発動',
     actionLabel: '終わった'
+  },
+  {
+    id: 'step-p6',
+    type: 'choice',
+    label: '⑥予告',
+    answerKey: 'p6',
+    image: 'images/p6.png',
+    placeholderTitle: '⑥',
+    choices: ['北ワープ', '南ワープ']
   },
   {
     id: 'step-p7',
     type: 'choice',
     label: '⑦予告',
-    description: '⑦の予告方向を選択してください。',
     answerKey: 'p7',
     image: 'images/p7.png',
-    placeholderTitle: '⑦予告イメージ',
-    placeholderText: '③⑦複合発動用に方向を記録します。',
-    choices: ['up', 'down']
+    placeholderTitle: '⑦',
+    choices: ['B安置', 'D安置']
   },
   {
     id: 'step-a1-first',
     type: 'action',
     label: '①発動（1回目）',
-    description: '①予告の記録を確認して、1回目の発動が終わったら進んでください。',
     image: 'images/a1.png',
-    placeholderTitle: '①発動（1回目）',
-    placeholderText: '①予告の内容を参照します。',
+    placeholderTitle: '①',
     references: ['p1'],
     actionLabel: '終わった'
   },
   {
-    id: 'step-c37-first',
+    id: 'step-c367-first',
     type: 'composite',
-    label: '③⑦複合発動（1回目）',
-    description: '③と⑦の記録内容から、今回の複合発動表示を確認してください。',
-    compositeKey: '37',
-    actionLabel: '終わった',
-    references: ['p3', 'p7']
+    label: '③⑥⑦発動（1回目）',
+    compositeKey: '367',
+    references: ['p3', 'p6', 'p7'],
+    actionLabel: '終わった'
   },
   {
     id: 'step-a1-second',
     type: 'action',
     label: '①発動（2回目）',
-    description: '①予告の記録を確認して、2回目の発動が終わったら進んでください。',
     image: 'images/a1.png',
-    placeholderTitle: '①発動（2回目）',
-    placeholderText: '同じ①予告を再参照するフェーズです。',
+    placeholderTitle: '①',
     references: ['p1'],
     actionLabel: '終わった'
   },
   {
-    id: 'step-c37-second',
+    id: 'step-c36-second',
     type: 'composite',
-    label: '③⑦複合発動（2回目）',
-    description: '最後の複合発動です。③と⑦の記録内容を再確認してください。',
-    compositeKey: '37',
-    actionLabel: '終わった',
-    references: ['p3', 'p7']
+    label: '③⑥発動（2回目）',
+    compositeKey: '36',
+    references: ['p3', 'p6'],
+    actionLabel: '終わった'
   }
 ];
 
@@ -325,6 +293,156 @@ function getP2SwapDisplay() {
   return p2SwapMap[state.answers.p2] || null;
 }
 
+function getFirstP1Action() {
+  return p1FirstMap[state.answers.p1] || '未設定';
+}
+
+function getSecondP1Action() {
+  return p1SecondMap[state.answers.p1] || '未設定';
+}
+
+function getP2CircleSequence(p2) {
+  if (p2 === 'C') {
+    return ['1', 'C'];
+  }
+
+  if (p2 === 'B') {
+    return ['C', '1'];
+  }
+
+  if (p2 === '2') {
+    return ['2', 'C'];
+  }
+
+  if (p2 === '3') {
+    return ['C', '2'];
+  }
+
+  return ['C', 'C'];
+}
+
+function getP2StackSequence(p2) {
+  if (['A', '2', '1', '3'].includes(p2)) {
+    return ['3', '3'];
+  }
+
+  if (['B', 'C', 'D', '4'].includes(p2)) {
+    return ['4', '4'];
+  }
+
+  return ['未', '未'];
+}
+
+function getComposite24Sequence(p2, p4) {
+  const [circleFirst, circleSecond] = getP2CircleSequence(p2);
+  const [stackFirst, stackSecond] = getP2StackSequence(p2);
+  const fromCircle = [
+    { label: '円範囲1回目', value: circleFirst },
+    { label: '頭割り1回目', value: stackFirst },
+    { label: '円範囲2回目', value: circleSecond },
+    { label: '頭割り2回目', value: stackSecond }
+  ];
+  const fromStack = [
+    { label: '頭割り1回目', value: stackFirst },
+    { label: '円範囲1回目', value: circleFirst },
+    { label: '頭割り2回目', value: stackSecond },
+    { label: '円範囲2回目', value: circleSecond }
+  ];
+
+  return p4 === '頭割りから' ? fromStack : fromCircle;
+}
+
+function renderComposite24Sequence(sequence) {
+  return `
+    <div class="result-list result-list-compact">
+      ${sequence
+        .map((item) => `<div class="result-row"><span>${escapeHtml(item.label)}</span><strong>${escapeHtml(item.value)}</strong></div>`)
+        .join('')}
+    </div>
+  `;
+}
+
+function getTagasaPosition(p3, p6) {
+  if (p3 === '1-2安置') {
+    return p6 === '北ワープ' ? 'タゲサ外' : 'タゲサ内';
+  }
+
+  if (p3 === '3-4安置') {
+    return p6 === '北ワープ' ? 'タゲサ内' : 'タゲサ外';
+  }
+
+  return '未設定';
+}
+
+function getComposite367Lines(p3, p6, p7) {
+  return [p7 || '未設定', getTagasaPosition(p3, p6)];
+}
+
+function getComposite36Lines(p3, p6) {
+  return [getTagasaPosition(p3, p6)];
+}
+
+function renderResultLines(lines, options = {}) {
+  const className = options.compact ? 'result-list result-list-compact' : 'result-list';
+  return `
+    <div class="${className}">
+      ${lines
+        .map((line) => `<div class="result-line">${escapeHtml(line)}</div>`)
+        .join('')}
+    </div>
+  `;
+}
+
+function getActionDisplay(step) {
+  if (step.id === 'step-a2-swap') {
+    const swap = getP2SwapDisplay();
+    return {
+      icon: swap?.icon || '🔄',
+      lines: swap ? [swap.text] : ['未設定']
+    };
+  }
+
+  if (step.id === 'step-a3') {
+    return {
+      icon: '3️⃣',
+      lines: [state.answers.p3 || '未設定']
+    };
+  }
+
+  if (step.id === 'step-a5') {
+    return {
+      icon: '5️⃣',
+      lines: [p5ActionMap[state.answers.p5] || '未設定']
+    };
+  }
+
+  if (step.id === 'step-a6') {
+    return {
+      icon: '⚔️',
+      lines: ['確認']
+    };
+  }
+
+  if (step.id === 'step-a1-first') {
+    return {
+      icon: '1️⃣',
+      lines: [getFirstP1Action()]
+    };
+  }
+
+  if (step.id === 'step-a1-second') {
+    return {
+      icon: '1️⃣',
+      lines: [getSecondP1Action()]
+    };
+  }
+
+  return {
+    icon: '⚔️',
+    lines: []
+  };
+}
+
 function render() {
   const step = getStep();
 
@@ -346,18 +464,16 @@ function render() {
   renderCompositeStep(step);
 }
 
-function renderFrame(content, step, options = {}) {
+function renderFrame(content, step) {
   const total = steps.length;
   const progress = step ? ((state.stepIndex + 1) / total) * 100 : 100;
-  const showDescription = options.showDescription && options.description;
 
   app.innerHTML = `
     <section class="card compact-card">
       <div class="progress" aria-label="進行状況">
         <div class="progress-bar" style="width: ${progress}%;"></div>
       </div>
-      <h2 class="step-title">${escapeHtml(options.title || step?.label || '完了')}</h2>
-      ${showDescription ? `<p class="description">${escapeHtml(options.description)}</p>` : ''}
+      <h2 class="step-title">${escapeHtml(step?.label || '進行完了')}</h2>
       ${content}
       <section class="summary-section">${renderSummary()}</section>
       ${renderNavigation(step)}
@@ -367,7 +483,7 @@ function renderFrame(content, step, options = {}) {
   bindEvents(step);
 }
 
-function renderVisual(step, fallbackTitle, _fallbackText, icon = '🖼️') {
+function renderVisual(step, fallbackTitle, icon = '🖼️') {
   const titleMarkup = fallbackTitle ? `<strong>${escapeHtml(fallbackTitle)}</strong>` : '';
   const placeholderMarkup = `
     <div class="placeholder">
@@ -391,6 +507,7 @@ function renderVisual(step, fallbackTitle, _fallbackText, icon = '🖼️') {
 function renderChoiceStep(step) {
   const selected = state.answers[step.answerKey];
   const isP2Layout = step.answerKey === 'p2';
+
   const renderChoiceButton = (choice) => {
     const isSelected = selected === choice;
     return `
@@ -424,45 +541,52 @@ function renderChoiceStep(step) {
     : `<div class="choice-grid">${step.choices.map(renderChoiceButton).join('')}</div>`;
 
   const content = `
-    ${renderVisual(step, step.placeholderTitle, step.placeholderText, '🧩')}
+    ${renderVisual(step, step.placeholderTitle, '🧩')}
     ${choices}
   `;
 
-  renderFrame(content, step, {
-    title: step.label
-  });
+  renderFrame(content, step);
 }
 
 function renderActionStep(step) {
-  const swapDisplay = step.id === 'step-a2-swap' ? getP2SwapDisplay() : null;
-  const references = renderReferences(step.references || []);
-  const visualTitle = step.id === 'step-a2-swap' ? '' : step.placeholderTitle;
+  const display = getActionDisplay(step);
+  const resultMarkup = display.lines.length
+    ? renderResultLines(display.lines, { compact: true })
+    : '';
   const content = `
-    ${renderVisual(step, visualTitle, step.placeholderText, '⚔️')}
-    ${swapDisplay ? `<div class="swap-result">${escapeHtml(swapDisplay.text)}</div>` : ''}
-    ${references}
-  `;
-
-  renderFrame(content, step, {
-    title: step.label
-  });
-}
-
-function renderCompositeStep(step) {
-  const display = step.compositeKey === '24' ? getComposite24Display() : getComposite37Display();
-  const visualStep = {
-    ...step,
-    image: display.image
-  };
-  const shortTitle = display.title?.replace(/^.+?:\s*/, '') || '';
-  const content = `
-    ${renderVisual(visualStep, shortTitle, display.text, display.icon || '🔀')}
+    ${renderVisual(step, step.placeholderTitle, display.icon)}
+    ${resultMarkup}
     ${renderReferences(step.references || [])}
   `;
 
-  renderFrame(content, step, {
-    title: step.label
-  });
+  renderFrame(content, step);
+}
+
+function renderCompositeStep(step) {
+  let resultMarkup = '';
+  let icon = '🔀';
+
+  if (step.compositeKey === '24') {
+    resultMarkup = renderComposite24Sequence(getComposite24Sequence(state.answers.p2, state.answers.p4));
+    icon = '2️⃣';
+  } else if (step.compositeKey === '367') {
+    resultMarkup = renderResultLines(
+      getComposite367Lines(state.answers.p3, state.answers.p6, state.answers.p7),
+      { compact: true }
+    );
+    icon = '3️⃣';
+  } else if (step.compositeKey === '36') {
+    resultMarkup = renderResultLines(getComposite36Lines(state.answers.p3, state.answers.p6), { compact: true });
+    icon = '3️⃣';
+  }
+
+  const content = `
+    ${renderVisual(step, step.placeholderTitle, icon)}
+    ${resultMarkup}
+    ${renderReferences(step.references || [])}
+  `;
+
+  renderFrame(content, step);
 }
 
 function renderComplete() {
@@ -472,9 +596,7 @@ function renderComplete() {
     </div>
   `;
 
-  renderFrame(content, null, {
-    title: '進行完了'
-  });
+  renderFrame(content, null);
 }
 
 function renderReferences(referenceKeys) {
@@ -582,16 +704,6 @@ function canGoNext(step) {
   }
 
   return Boolean(state.answers[step.answerKey]);
-}
-
-function getComposite24Display() {
-  const key = `${state.answers.p2}_${state.answers.p4}`;
-  return composite24Map[key] || defaultCompositeDisplay;
-}
-
-function getComposite37Display() {
-  const key = `${state.answers.p3}_${state.answers.p7}`;
-  return composite37Map[key] || defaultCompositeDisplay;
 }
 
 loadState();

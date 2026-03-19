@@ -227,6 +227,47 @@ button {
   line-height: 1.2;
 }
 
+.result-list {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 8px;
+}
+
+.result-list-compact {
+  gap: 6px;
+}
+
+.result-row,
+.result-line {
+  min-height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(156, 168, 214, 0.16);
+  background: rgba(8, 13, 28, 0.88);
+  padding: 9px 10px;
+}
+
+.result-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.result-row strong,
+.result-line {
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.result-line {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font-weight: 700;
+}
+
 .summary-section {
   margin-top: 8px;
   padding-top: 8px;

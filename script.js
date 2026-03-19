@@ -33,22 +33,22 @@ const defaultCompositeDisplay = {
 };
 
 const composite24Map = {
-  pattern1_left: { title: '②④複合: pattern1 + 左', text: 'pattern1 と 左 の組み合わせです。左優先で処理。', image: '', icon: '↖️' },
-  pattern1_right: { title: '②④複合: pattern1 + 右', text: 'pattern1 と 右 の組み合わせです。右優先で処理。', image: '', icon: '↗️' },
-  pattern2_left: { title: '②④複合: pattern2 + 左', text: 'pattern2 と 左 の組み合わせです。左へ寄って解決。', image: '', icon: '⬅️' },
-  pattern2_right: { title: '②④複合: pattern2 + 右', text: 'pattern2 と 右 の組み合わせです。右へ寄って解決。', image: '', icon: '➡️' },
-  pattern3_left: { title: '②④複合: pattern3 + 左', text: 'pattern3 と 左 の組み合わせです。散開後に左処理。', image: '', icon: '🌀' },
-  pattern3_right: { title: '②④複合: pattern3 + 右', text: 'pattern3 と 右 の組み合わせです。散開後に右処理。', image: '', icon: '🌀' },
-  pattern4_left: { title: '②④複合: pattern4 + 左', text: 'pattern4 と 左 の組み合わせです。中央基準で左回避。', image: '', icon: '🛡️' },
-  pattern4_right: { title: '②④複合: pattern4 + 右', text: 'pattern4 と 右 の組み合わせです。中央基準で右回避。', image: '', icon: '🛡️' },
-  pattern5_left: { title: '②④複合: pattern5 + 左', text: 'pattern5 と 左 の組み合わせです。端スタート想定。', image: '', icon: '🌙' },
-  pattern5_right: { title: '②④複合: pattern5 + 右', text: 'pattern5 と 右 の組み合わせです。端スタート想定。', image: '', icon: '🌙' },
-  pattern6_left: { title: '②④複合: pattern6 + 左', text: 'pattern6 と 左 の組み合わせです。ノックバック後に左。', image: '', icon: '💨' },
-  pattern6_right: { title: '②④複合: pattern6 + 右', text: 'pattern6 と 右 の組み合わせです。ノックバック後に右。', image: '', icon: '💨' },
-  pattern7_left: { title: '②④複合: pattern7 + 左', text: 'pattern7 と 左 の組み合わせです。内周から左抜け。', image: '', icon: '🔷' },
-  pattern7_right: { title: '②④複合: pattern7 + 右', text: 'pattern7 と 右 の組み合わせです。内周から右抜け。', image: '', icon: '🔷' },
-  pattern8_left: { title: '②④複合: pattern8 + 左', text: 'pattern8 と 左 の組み合わせです。最後に左へ寄る。', image: '', icon: '✨' },
-  pattern8_right: { title: '②④複合: pattern8 + 右', text: 'pattern8 と 右 の組み合わせです。最後に右へ寄る。', image: '', icon: '✨' }
+  '1_left': { title: '②④複合: 1 + 左', text: '1 と 左 の組み合わせです。左優先で処理。', image: '', icon: '↖️' },
+  '1_right': { title: '②④複合: 1 + 右', text: '1 と 右 の組み合わせです。右優先で処理。', image: '', icon: '↗️' },
+  '2_left': { title: '②④複合: 2 + 左', text: '2 と 左 の組み合わせです。左へ寄って解決。', image: '', icon: '⬅️' },
+  '2_right': { title: '②④複合: 2 + 右', text: '2 と 右 の組み合わせです。右へ寄って解決。', image: '', icon: '➡️' },
+  '3_left': { title: '②④複合: 3 + 左', text: '3 と 左 の組み合わせです。散開後に左処理。', image: '', icon: '🌀' },
+  '3_right': { title: '②④複合: 3 + 右', text: '3 と 右 の組み合わせです。散開後に右処理。', image: '', icon: '🌀' },
+  '4_left': { title: '②④複合: 4 + 左', text: '4 と 左 の組み合わせです。中央基準で左回避。', image: '', icon: '🛡️' },
+  '4_right': { title: '②④複合: 4 + 右', text: '4 と 右 の組み合わせです。中央基準で右回避。', image: '', icon: '🛡️' },
+  'A_left': { title: '②④複合: A + 左', text: 'A と 左 の組み合わせです。端スタート想定。', image: '', icon: '🌙' },
+  'A_right': { title: '②④複合: A + 右', text: 'A と 右 の組み合わせです。端スタート想定。', image: '', icon: '🌙' },
+  'B_left': { title: '②④複合: B + 左', text: 'B と 左 の組み合わせです。ノックバック後に左。', image: '', icon: '💨' },
+  'B_right': { title: '②④複合: B + 右', text: 'B と 右 の組み合わせです。ノックバック後に右。', image: '', icon: '💨' },
+  'C_left': { title: '②④複合: C + 左', text: 'C と 左 の組み合わせです。内周から左抜け。', image: '', icon: '🔷' },
+  'C_right': { title: '②④複合: C + 右', text: 'C と 右 の組み合わせです。内周から右抜け。', image: '', icon: '🔷' },
+  'D_left': { title: '②④複合: D + 左', text: 'D と 左 の組み合わせです。最後に左へ寄る。', image: '', icon: '✨' },
+  'D_right': { title: '②④複合: D + 右', text: 'D と 右 の組み合わせです。最後に右へ寄る。', image: '', icon: '✨' }
 };
 
 const composite37Map = {
@@ -79,7 +79,7 @@ const steps = [
     image: 'images/p2.png',
     placeholderTitle: '②予告イメージ',
     placeholderText: '8パターンから該当するものを選択します。',
-    choices: ['pattern1', 'pattern2', 'pattern3', 'pattern4', 'pattern5', 'pattern6', 'pattern7', 'pattern8']
+    choices: ['1', 'A', '2', 'B', 'C', '4', 'D', '3']
   },
   {
     id: 'step-p3',
@@ -272,22 +272,11 @@ function render() {
 }
 
 function renderFrame(content, step, options = {}) {
-  const stepNumber = Math.min(state.stepIndex + 1, steps.length);
   const total = steps.length;
   const progress = step ? ((state.stepIndex + 1) / total) * 100 : 100;
 
   app.innerHTML = `
     <section class="card">
-      <div class="meta-row">
-        <div class="meta-chip">
-          <span class="label">現在フェーズ</span>
-          <strong>${stepNumber} / ${total}</strong>
-        </div>
-        <div class="meta-chip">
-          <span class="label">フェーズ種別</span>
-          <strong>${escapeHtml(options.typeLabel || '完了')}</strong>
-        </div>
-      </div>
       <div class="progress" aria-label="進行状況">
         <div class="progress-bar" style="width: ${progress}%;"></div>
       </div>
@@ -329,31 +318,45 @@ function renderVisual(step, fallbackTitle, fallbackText, icon = '🖼️') {
 
 function renderChoiceStep(step) {
   const selected = state.answers[step.answerKey];
-  const choices = step.choices
-    .map((choice) => {
-      const isSelected = selected === choice;
-      return `
-        <button
-          type="button"
-          class="choice-button ${isSelected ? 'selected' : ''}"
-          data-action="select-choice"
-          data-answer-key="${escapeHtml(step.answerKey)}"
-          data-value="${escapeHtml(choice)}"
-          aria-pressed="${String(isSelected)}"
-        >
-          ${escapeHtml(choice)}
-        </button>
-      `;
-    })
-    .join('');
+  const isP2Layout = step.answerKey === 'p2';
+  const renderChoiceButton = (choice) => {
+    const isSelected = selected === choice;
+    return `
+      <button
+        type="button"
+        class="choice-button ${isSelected ? 'selected' : ''}"
+        data-action="select-choice"
+        data-answer-key="${escapeHtml(step.answerKey)}"
+        data-value="${escapeHtml(choice)}"
+        aria-pressed="${String(isSelected)}"
+      >
+        ${escapeHtml(choice)}
+      </button>
+    `;
+  };
+
+  const choices = isP2Layout
+    ? `
+      <div class="choice-grid-p2">
+        ${renderChoiceButton('1')}
+        ${renderChoiceButton('A')}
+        ${renderChoiceButton('2')}
+        ${renderChoiceButton('B')}
+        <div class="choice-grid-p2-empty" aria-hidden="true"></div>
+        ${renderChoiceButton('C')}
+        ${renderChoiceButton('4')}
+        ${renderChoiceButton('D')}
+        ${renderChoiceButton('3')}
+      </div>
+    `
+    : `<div class="choice-grid">${step.choices.map(renderChoiceButton).join('')}</div>`;
 
   const content = `
     ${renderVisual(step, step.placeholderTitle, step.placeholderText, '🧩')}
-    <div class="choice-grid">${choices}</div>
+    ${choices}
   `;
 
   renderFrame(content, step, {
-    typeLabel: '予告入力',
     title: step.label
   });
 }
@@ -366,7 +369,6 @@ function renderActionStep(step) {
   `;
 
   renderFrame(content, step, {
-    typeLabel: '単独発動',
     title: step.label,
     description: step.description
   });
@@ -384,7 +386,6 @@ function renderCompositeStep(step) {
   `;
 
   renderFrame(content, step, {
-    typeLabel: '複合発動',
     title: step.label,
     description: step.description
   });
@@ -399,7 +400,6 @@ function renderComplete() {
   `;
 
   renderFrame(content, null, {
-    typeLabel: '完了画面',
     title: '進行完了',
     description: '記録結果の最終確認画面です。'
   });

@@ -38,23 +38,6 @@ button {
   padding: 20px 16px 36px;
 }
 
-.app-header {
-  margin-bottom: 16px;
-}
-
-.eyebrow {
-  margin: 0 0 6px;
-  color: var(--accent-strong);
-  font-size: 0.8rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.app-header h1 {
-  margin: 0;
-  font-size: clamp(1.35rem, 4vw, 2rem);
-}
-
 .card {
   background: rgba(17, 22, 42, 0.92);
   border: 1px solid rgba(140, 156, 214, 0.15);
@@ -64,31 +47,11 @@ button {
   backdrop-filter: blur(6px);
 }
 
-.meta-row,
 .reference-row,
 .nav-row,
 .choice-grid {
   display: grid;
   gap: 12px;
-}
-
-.meta-row {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin-bottom: 16px;
-}
-
-.meta-chip {
-  background: var(--panel-strong);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 12px;
-}
-
-.meta-chip .label {
-  display: block;
-  color: var(--muted);
-  font-size: 0.82rem;
-  margin-bottom: 4px;
 }
 
 .progress {
@@ -172,6 +135,25 @@ button {
   gap: 10px;
   margin-bottom: 14px;
 }
+
+.choice-grid-p2 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(3, auto);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.choice-grid-p2 .choice-button {
+  min-height: 56px;
+}
+
+.choice-grid-p2-empty {
+  min-height: 56px;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 
 .choice-button,
 .primary-button,
@@ -301,8 +283,11 @@ button {
   }
 
   .choice-grid,
-  .nav-row,
-  .meta-row {
+  .nav-row {
     grid-template-columns: 1fr;
+  }
+
+  .choice-grid-p2 {
+    gap: 8px;
   }
 }

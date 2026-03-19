@@ -5,6 +5,7 @@ const summaryConfig = [
   { key: 'p2', label: '②' },
   { key: 'p3', label: '③' },
   { key: 'p4', label: '④' },
+  { key: 'p5mode', label: '⑤前' },
   { key: 'p5', label: '⑤' },
   { key: 'p6', label: '⑥' },
   { key: 'p7', label: '⑦' }
@@ -16,6 +17,7 @@ function createInitialAnswers() {
     p2: null,
     p3: null,
     p4: null,
+    p5mode: null,
     p5: null,
     p6: null,
     p7: null
@@ -44,13 +46,13 @@ const p5ActionMap = {
 };
 
 const p1FirstMap = {
-  '十字': 'A',
-  'X字': '1'
+  '十字': '数字',
+  'X字': 'アルファベット'
 };
 
 const p1SecondMap = {
-  '十字': '1',
-  'X字': 'A'
+  '十字': 'アルファベット',
+  'X字': '数字'
 };
 
 const steps = [
@@ -109,6 +111,15 @@ const steps = [
     actionLabel: '終わった'
   },
   {
+    id: 'step-p5-mode',
+    type: 'choice',
+    label: '⑤予告-前半',
+    answerKey: 'p5mode',
+    image: 'images/p5-mode.png',
+    placeholderTitle: '⑤-前半',
+    choices: ['初期位置', '交換']
+  },
+  {
     id: 'step-p5',
     type: 'choice',
     label: '⑤予告',
@@ -131,7 +142,7 @@ const steps = [
     label: '⑤発動',
     image: 'images/a5.png',
     placeholderTitle: '⑤',
-    references: ['p5'],
+    references: ['p5mode', 'p5'],
     actionLabel: '終わった'
   },
   {
@@ -301,6 +312,12 @@ function getSecondP1Action() {
   return p1SecondMap[state.answers.p1] || '未設定';
 }
 
+function getP5ActionText() {
+  const mode = state.answers.p5mode || '未設定';
+  const action = p5ActionMap[state.answers.p5] || '未設定';
+  return `${mode}、${action}`;
+}
+
 function getP2CircleSequence(p2) {
   if (p2 === 'C') {
     return ['1', 'C'];
@@ -382,11 +399,25 @@ function getComposite36Lines(p3, p6) {
   return [getTagasaPosition(p3, p6)];
 }
 
+function normalizeResultLines(lines, options = {}) {
+  if (!options.compact) {
+    return lines;
+  }
+
+  return lines.flatMap((line) =>
+    String(line)
+      .split('、')
+      .map((part) => part.trim())
+      .filter(Boolean)
+  );
+}
+
 function renderResultLines(lines, options = {}) {
   const className = options.compact ? 'result-list result-list-compact' : 'result-list';
+  const normalizedLines = normalizeResultLines(lines, options);
   return `
     <div class="${className}">
-      ${lines
+      ${normalizedLines
         .map((line) => `<div class="result-line">${escapeHtml(line)}</div>`)
         .join('')}
     </div>
@@ -412,7 +443,7 @@ function getActionDisplay(step) {
   if (step.id === 'step-a5') {
     return {
       icon: '5️⃣',
-      lines: [p5ActionMap[state.answers.p5] || '未設定']
+      lines: [getP5ActionText()]
     };
   }
 
@@ -464,19 +495,22 @@ function render() {
   renderCompositeStep(step);
 }
 
-function renderFrame(content, step) {
+function renderFrame(content, step, options = {}) {
   const total = steps.length;
   const progress = step ? ((state.stepIndex + 1) / total) * 100 : 100;
+  const subNav = renderSubNavigation(step);
+  const primaryNav = options.skipPrimaryNav ? '' : renderPrimaryNavigation(step);
 
   app.innerHTML = `
     <section class="card compact-card">
       <div class="progress" aria-label="進行状況">
         <div class="progress-bar" style="width: ${progress}%;"></div>
       </div>
+      ${subNav}
       <h2 class="step-title">${escapeHtml(step?.label || '進行完了')}</h2>
       ${content}
+      ${primaryNav}
       <section class="summary-section">${renderSummary()}</section>
-      ${renderNavigation(step)}
     </section>
   `;
 
@@ -540,10 +574,7 @@ function renderChoiceStep(step) {
     `
     : `<div class="choice-grid">${step.choices.map(renderChoiceButton).join('')}</div>`;
 
-  const content = `
-    ${renderVisual(step, step.placeholderTitle, '🧩')}
-    ${choices}
-  `;
+  const content = choices;
 
   renderFrame(content, step);
 }
@@ -553,13 +584,15 @@ function renderActionStep(step) {
   const resultMarkup = display.lines.length
     ? renderResultLines(display.lines, { compact: true })
     : '';
+  const primaryNav = renderPrimaryNavigation(step);
   const content = `
     ${renderVisual(step, step.placeholderTitle, display.icon)}
     ${resultMarkup}
+    ${primaryNav}
     ${renderReferences(step.references || [])}
   `;
 
-  renderFrame(content, step);
+  renderFrame(content, step, { skipPrimaryNav: true });
 }
 
 function renderCompositeStep(step) {
@@ -580,13 +613,15 @@ function renderCompositeStep(step) {
     icon = '3️⃣';
   }
 
+  const primaryNav = renderPrimaryNavigation(step);
   const content = `
     ${renderVisual(step, step.placeholderTitle, icon)}
     ${resultMarkup}
+    ${primaryNav}
     ${renderReferences(step.references || [])}
   `;
 
-  renderFrame(content, step);
+  renderFrame(content, step, { skipPrimaryNav: true });
 }
 
 function renderComplete() {
@@ -627,17 +662,33 @@ function renderSummary() {
   return `<div class="summary-inline">${items}</div>`;
 }
 
-function renderNavigation(step) {
-  const onComplete = !step;
-  const isChoice = step?.type === 'choice';
-  const nextLabel = onComplete ? '完了' : (step.actionLabel || '終わった');
-  const nextDisabled = onComplete || !canGoNext(step);
+function renderSubNavigation(step) {
+  if (!step) {
+    return `
+      <div class="nav-row sub-nav">
+        <button type="button" class="secondary-button small-button" data-action="prev" ${state.stepIndex === 0 ? 'disabled' : ''}>前へ</button>
+        <button type="button" class="danger-button small-button" data-action="reset">リセット</button>
+      </div>
+    `;
+  }
 
   return `
-    <div class="nav-row ${isChoice ? 'choice-nav' : ''}">
-      <button type="button" class="secondary-button" data-action="prev" ${state.stepIndex === 0 ? 'disabled' : ''}>前へ</button>
-      <button type="button" class="danger-button" data-action="reset">リセット</button>
-      ${isChoice ? '' : `<button type="button" class="primary-button" data-action="next" ${nextDisabled ? 'disabled' : ''}>${escapeHtml(nextLabel)}</button>`}
+    <div class="nav-row sub-nav">
+      <button type="button" class="secondary-button small-button" data-action="prev" ${state.stepIndex === 0 ? 'disabled' : ''}>前へ</button>
+      <button type="button" class="danger-button small-button" data-action="reset">リセット</button>
+    </div>
+  `;
+}
+
+function renderPrimaryNavigation(step) {
+  if (!step || step.type === 'choice') {
+    return '';
+  }
+
+  const nextDisabled = !canGoNext(step);
+  return `
+    <div class="nav-row main-nav">
+      <button type="button" class="primary-button" data-action="next" ${nextDisabled ? 'disabled' : ''}>${escapeHtml(step.actionLabel || '終わった')}</button>
     </div>
   `;
 }
@@ -662,7 +713,11 @@ function bindEvents(step) {
   }
 
   if (resetButton) {
-    resetButton.addEventListener('click', () => resetState(true));
+    resetButton.addEventListener('click', () => {
+      if (confirm('最初からやり直しますか？')) {
+        resetState(true);
+      }
+    });
   }
 }
 

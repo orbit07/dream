@@ -167,6 +167,13 @@ button {
   transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
 
+.small-button {
+  min-height: 34px;
+  padding: 7px 10px;
+  border-radius: 10px;
+  font-size: 0.78rem;
+}
+
 .choice-button:active,
 .primary-button:active,
 .secondary-button:active,
@@ -181,6 +188,7 @@ button {
 }
 
 .primary-button {
+  min-width: min(100%, 220px);
   background: linear-gradient(135deg, var(--accent), #6984ff);
   border-color: transparent;
   color: #fff;
@@ -298,12 +306,22 @@ button {
 }
 
 .nav-row {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  display: flex;
+  gap: 8px;
   margin-top: 10px;
 }
 
-.choice-nav {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+.sub-nav {
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.main-nav {
+  justify-content: center;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 .complete-box {
@@ -331,12 +349,15 @@ button {
     border-radius: 18px;
   }
 
-  .choice-grid,
-  .nav-row {
-    grid-template-columns: 1fr;
-  }
-
   .choice-grid-p2 {
     gap: 8px;
+  }
+
+  .sub-nav {
+    flex-wrap: wrap;
+  }
+
+  .main-nav .primary-button {
+    width: 100%;
   }
 }

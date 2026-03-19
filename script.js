@@ -46,20 +46,20 @@ const p5ActionMap = {
 };
 
 const p1FirstMap = {
-  '十字': '数字',
-  'X字': 'アルファベット'
+  '十字': '1 or 4',
+  'X字': 'A or D'
 };
 
 const p1SecondMap = {
-  '十字': 'アルファベット',
-  'X字': '数字'
+  '十字': 'A or D',
+  'X字': '1 or 4'
 };
 
 const steps = [
   {
     id: 'step-p1',
     type: 'choice',
-    label: '①予告',
+    label: '【予告】模倣細胞',
     answerKey: 'p1',
     image: 'images/p1.png',
     placeholderTitle: '①',
@@ -68,7 +68,7 @@ const steps = [
   {
     id: 'step-p2',
     type: 'choice',
-    label: '②予告',
+    label: '【予告】分身出現',
     answerKey: 'p2',
     image: 'images/p2.png',
     placeholderTitle: '②',
@@ -77,7 +77,7 @@ const steps = [
   {
     id: 'step-a2-swap',
     type: 'action',
-    label: '②発動',
+    label: '【入れ替え】分身出現',
     image: 'images/a2-swap.png',
     placeholderTitle: '②',
     references: ['p2'],
@@ -86,7 +86,7 @@ const steps = [
   {
     id: 'step-p3',
     type: 'choice',
-    label: '③予告',
+    label: '【予告】扇範囲',
     answerKey: 'p3',
     image: 'images/p3.png',
     placeholderTitle: '③',
@@ -95,7 +95,7 @@ const steps = [
   {
     id: 'step-p4',
     type: 'choice',
-    label: '④予告',
+    label: '【予告】レプリ',
     answerKey: 'p4',
     image: 'images/p4.png',
     placeholderTitle: '④',
@@ -104,7 +104,7 @@ const steps = [
   {
     id: 'step-a3',
     type: 'action',
-    label: '③発動',
+    label: '【発動】扇範囲',
     image: 'images/a3.png',
     placeholderTitle: '③',
     references: ['p3'],
@@ -113,7 +113,7 @@ const steps = [
   {
     id: 'step-p5-mode',
     type: 'choice',
-    label: '⑤予告-前半',
+    label: '【予告】塔踏み（光デバフ）',
     answerKey: 'p5mode',
     image: 'images/p5-mode.png',
     placeholderTitle: '⑤-前半',
@@ -122,7 +122,7 @@ const steps = [
   {
     id: 'step-p5',
     type: 'choice',
-    label: '⑤予告',
+    label: '【予告】塔踏み（種類）',
     answerKey: 'p5',
     image: 'images/p5.png',
     placeholderTitle: '⑤',
@@ -131,7 +131,7 @@ const steps = [
   {
     id: 'step-c24',
     type: 'composite',
-    label: '②④発動',
+    label: '【発動】頭割り/円範囲2セット',
     compositeKey: '24',
     references: ['p2', 'p4'],
     actionLabel: '終わった'
@@ -139,7 +139,7 @@ const steps = [
   {
     id: 'step-a5',
     type: 'action',
-    label: '⑤発動',
+    label: '【発動】塔踏み',
     image: 'images/a5.png',
     placeholderTitle: '⑤',
     references: ['p5mode', 'p5'],
@@ -148,7 +148,7 @@ const steps = [
   {
     id: 'step-a6',
     type: 'action',
-    label: '発動（予告なし）',
+    label: '【発動】ニアファー',
     image: 'images/a6.png',
     placeholderTitle: '発動',
     actionLabel: '終わった'
@@ -156,7 +156,7 @@ const steps = [
   {
     id: 'step-p6',
     type: 'choice',
-    label: '⑥予告',
+    label: '【予告】扇範囲',
     answerKey: 'p6',
     image: 'images/p6.png',
     placeholderTitle: '⑥',
@@ -165,7 +165,7 @@ const steps = [
   {
     id: 'step-p7',
     type: 'choice',
-    label: '⑦予告',
+    label: '【予告】島安置',
     answerKey: 'p7',
     image: 'images/p7.png',
     placeholderTitle: '⑦',
@@ -174,7 +174,7 @@ const steps = [
   {
     id: 'step-a1-first',
     type: 'action',
-    label: '①発動（1回目）',
+    label: '【発動】頭割り/円範囲',
     image: 'images/a1.png',
     placeholderTitle: '①',
     references: ['p1'],
@@ -183,7 +183,7 @@ const steps = [
   {
     id: 'step-c367-first',
     type: 'composite',
-    label: '③⑥⑦発動（1回目）',
+    label: '【発動】扇範囲（島）',
     compositeKey: '367',
     references: ['p3', 'p6', 'p7'],
     actionLabel: '終わった'
@@ -191,7 +191,7 @@ const steps = [
   {
     id: 'step-a1-second',
     type: 'action',
-    label: '①発動（2回目）',
+    label: '【発動】頭割り/円範囲',
     image: 'images/a1.png',
     placeholderTitle: '①',
     references: ['p1'],
@@ -200,7 +200,7 @@ const steps = [
   {
     id: 'step-c36-second',
     type: 'composite',
-    label: '③⑥発動（2回目）',
+    label: '【発動】扇範囲',
     compositeKey: '36',
     references: ['p3', 'p6'],
     actionLabel: '終わった'

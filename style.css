@@ -47,7 +47,10 @@ button {
   backdrop-filter: blur(6px);
 }
 
-.reference-row,
+.compact-card {
+  padding: 12px;
+}
+
 .nav-row,
 .choice-grid {
   display: grid;
@@ -71,26 +74,27 @@ button {
 }
 
 .step-title {
-  margin: 0 0 8px;
-  font-size: 1.45rem;
+  margin: 0 0 6px;
+  font-size: 1.35rem;
 }
 
 .description {
-  margin: 0 0 14px;
+  margin: 0 0 10px;
   color: var(--muted);
-  line-height: 1.5;
+  line-height: 1.4;
+  font-size: 0.9rem;
 }
 
 .visual-box {
-  min-height: 132px;
+  min-height: 118px;
   background: linear-gradient(180deg, rgba(26, 33, 64, 0.92), rgba(11, 16, 32, 0.95));
   border: 1px solid var(--border);
-  border-radius: 18px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 14px;
-  margin-bottom: 14px;
+  padding: 10px;
+  margin-bottom: 8px;
   text-align: center;
 }
 
@@ -104,36 +108,30 @@ button {
 .placeholder {
   width: 100%;
   display: grid;
-  gap: 8px;
+  gap: 6px;
   justify-items: center;
 }
 
 .placeholder-icon {
-  width: 58px;
-  height: 58px;
-  border-radius: 18px;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
   display: grid;
   place-items: center;
   background: rgba(143, 125, 255, 0.15);
   border: 1px solid rgba(143, 125, 255, 0.35);
-  font-size: 1.4rem;
+  font-size: 1.2rem;
 }
 
 .placeholder strong {
-  font-size: 1.05rem;
-}
-
-.placeholder p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.94rem;
-  line-height: 1.45;
+  font-size: 0.92rem;
+  line-height: 1.2;
 }
 
 .choice-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .choice-grid-p2 {
@@ -141,7 +139,7 @@ button {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   grid-template-rows: repeat(3, auto);
   gap: 10px;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .choice-grid-p2 .choice-button {
@@ -202,26 +200,36 @@ button {
   border-color: rgba(255, 125, 150, 0.35);
 }
 
-.reference-row {
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  margin-bottom: 14px;
+.reference-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 8px;
 }
 
-.reference-card {
+.reference-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 2px 7px;
+  border-radius: 999px;
   background: rgba(8, 13, 28, 0.9);
   border: 1px solid rgba(156, 168, 214, 0.18);
-  border-radius: 14px;
-  padding: 10px 12px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.1;
 }
 
-.reference-card strong {
-  display: block;
-  margin-top: 4px;
+.swap-result {
+  margin: 0 0 8px;
+  color: var(--accent-strong);
+  font-size: 0.86rem;
+  line-height: 1.2;
 }
 
 .summary-section {
-  margin-top: 12px;
-  padding-top: 12px;
+  margin-top: 8px;
+  padding-top: 8px;
   border-top: 1px solid rgba(156, 168, 214, 0.12);
 }
 
@@ -234,14 +242,14 @@ button {
 .summary-chip {
   display: inline-flex;
   align-items: center;
-  min-height: 28px;
-  padding: 4px 8px;
+  min-height: 24px;
+  padding: 3px 7px;
   border-radius: 999px;
   background: rgba(8, 13, 28, 0.9);
   border: 1px solid rgba(156, 168, 214, 0.18);
   color: var(--text);
-  font-size: 0.78rem;
-  line-height: 1.2;
+  font-size: 0.72rem;
+  line-height: 1.1;
 }
 
 .summary-chip.empty {
@@ -250,7 +258,7 @@ button {
 
 .nav-row {
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-top: 14px;
+  margin-top: 10px;
 }
 
 .choice-nav {

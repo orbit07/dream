@@ -349,14 +349,15 @@ function render() {
 function renderFrame(content, step, options = {}) {
   const total = steps.length;
   const progress = step ? ((state.stepIndex + 1) / total) * 100 : 100;
+  const showDescription = options.showDescription && options.description;
 
   app.innerHTML = `
-    <section class="card">
+    <section class="card compact-card">
       <div class="progress" aria-label="進行状況">
         <div class="progress-bar" style="width: ${progress}%;"></div>
       </div>
       <h2 class="step-title">${escapeHtml(options.title || step?.label || '完了')}</h2>
-      ${options.description ? `<p class="description">${escapeHtml(options.description)}</p>` : ''}
+      ${showDescription ? `<p class="description">${escapeHtml(options.description)}</p>` : ''}
       ${content}
       <section class="summary-section">${renderSummary()}</section>
       ${renderNavigation(step)}
@@ -366,7 +367,14 @@ function renderFrame(content, step, options = {}) {
   bindEvents(step);
 }
 
-function renderVisual(step, fallbackTitle, fallbackText, icon = '🖼️') {
+function renderVisual(step, fallbackTitle, _fallbackText, icon = '🖼️') {
+  const titleMarkup = fallbackTitle ? `<strong>${escapeHtml(fallbackTitle)}</strong>` : '';
+  const placeholderMarkup = `
+    <div class="placeholder">
+      <div class="placeholder-icon">${escapeHtml(icon)}</div>
+      ${titleMarkup}
+    </div>
+  `;
   const imageMarkup = step?.image
     ? `<img src="${escapeHtml(step.image)}" alt="${escapeHtml(step.label)}" onerror="this.replaceWith(this.parentElement.querySelector('.placeholder-template').content.cloneNode(true))">`
     : '';
@@ -374,19 +382,8 @@ function renderVisual(step, fallbackTitle, fallbackText, icon = '🖼️') {
   return `
     <div class="visual-box">
       ${imageMarkup}
-      <template class="placeholder-template">
-        <div class="placeholder">
-          <div class="placeholder-icon">${escapeHtml(icon)}</div>
-          <strong>${escapeHtml(fallbackTitle)}</strong>
-          <p>${escapeHtml(fallbackText)}</p>
-        </div>
-      </template>
-      ${!step?.image ? `
-        <div class="placeholder">
-          <div class="placeholder-icon">${escapeHtml(icon)}</div>
-          <strong>${escapeHtml(fallbackTitle)}</strong>
-          <p>${escapeHtml(fallbackText)}</p>
-        </div>` : ''}
+      <template class="placeholder-template">${placeholderMarkup}</template>
+      ${!step?.image ? placeholderMarkup : ''}
     </div>
   `;
 }
@@ -439,22 +436,15 @@ function renderChoiceStep(step) {
 function renderActionStep(step) {
   const swapDisplay = step.id === 'step-a2-swap' ? getP2SwapDisplay() : null;
   const references = renderReferences(step.references || []);
+  const visualTitle = step.id === 'step-a2-swap' ? '' : step.placeholderTitle;
   const content = `
-    ${renderVisual(step, step.placeholderTitle, step.placeholderText, '⚔️')}
-    ${swapDisplay ? `
-      <div class="reference-row">
-        <div class="reference-card">
-          <span class="label">入れ替え内容 ${escapeHtml(swapDisplay.icon || '🔄')}</span>
-          <strong>${escapeHtml(swapDisplay.text)}</strong>
-        </div>
-      </div>
-    ` : ''}
+    ${renderVisual(step, visualTitle, step.placeholderText, '⚔️')}
+    ${swapDisplay ? `<div class="swap-result">${escapeHtml(swapDisplay.text)}</div>` : ''}
     ${references}
   `;
 
   renderFrame(content, step, {
-    title: step.label,
-    description: step.description
+    title: step.label
   });
 }
 
@@ -464,14 +454,14 @@ function renderCompositeStep(step) {
     ...step,
     image: display.image
   };
+  const shortTitle = display.title?.replace(/^.+?:\s*/, '') || '';
   const content = `
-    ${renderVisual(visualStep, display.title, display.text, display.icon || '🔀')}
+    ${renderVisual(visualStep, shortTitle, display.text, display.icon || '🔀')}
     ${renderReferences(step.references || [])}
   `;
 
   renderFrame(content, step, {
-    title: step.label,
-    description: step.description
+    title: step.label
   });
 }
 
@@ -479,13 +469,11 @@ function renderComplete() {
   const content = `
     <div class="complete-box">
       <span class="complete-badge">完了</span>
-      <p class="description">全フェーズが完了しました。必要なら前へ戻って内容を再確認するか、リセットして最初からやり直せます。</p>
     </div>
   `;
 
   renderFrame(content, null, {
-    title: '進行完了',
-    description: '記録結果の最終確認画面です。'
+    title: '進行完了'
   });
 }
 
@@ -494,20 +482,15 @@ function renderReferences(referenceKeys) {
     return '';
   }
 
-  const cards = referenceKeys
+  const chips = referenceKeys
     .map((key) => {
       const item = summaryConfig.find((entry) => entry.key === key);
-      const value = state.answers[key] || '未入力';
-      return `
-        <div class="reference-card">
-          <span class="label">参照値 ${escapeHtml(item?.label || key)}</span>
-          <strong>${escapeHtml(value)}</strong>
-        </div>
-      `;
+      const value = state.answers[key] || '未';
+      return `<span class="reference-chip">${escapeHtml(item?.label || key)}:${escapeHtml(value)}</span>`;
     })
     .join('');
 
-  return `<div class="reference-row">${cards}</div>`;
+  return `<div class="reference-inline">${chips}</div>`;
 }
 
 function renderSummary() {

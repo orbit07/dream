@@ -45,14 +45,46 @@ const p5ActionMap = {
   '闇': '南へ'
 };
 
+const p3ActionImageMap = {
+  '1-2安置': 'img/p3_12.png',
+  '3-4安置': 'img/p3_34.png'
+};
+
+const p24ImageMap = {
+  '頭割りから': 'img/p24_atama.webp',
+  '円範囲から': 'img/p24_en.webp'
+};
+
+const p5ImageMap = {
+  '炎': 'img/p5_hono.webp',
+  '土': 'img/p5_tuchi.webp',
+  '風': 'img/p5_kaze.webp',
+  '闇': 'img/p5_yami.webp'
+};
+
+const p1ImageMap = {
+  '1-4': 'img/p1_1.webp',
+  'A-D': 'img/p1_a.webp'
+};
+
+const p367ImageMap = {
+  'タゲサ外': 'img/p367_soto.png',
+  'タゲサ内': 'img/p367_uchi.png'
+};
+
+const p36ImageMap = {
+  'タゲサ外': 'img/p36_soto.png',
+  'タゲサ内': 'img/p36_uchi.png'
+};
+
 const p1FirstMap = {
-  '十字': '1 or 4',
-  'X字': 'A or D'
+  '十字': '1-4',
+  'X字': 'A-D'
 };
 
 const p1SecondMap = {
-  '十字': 'A or D',
-  'X字': '1 or 4'
+  '十字': 'A-D',
+  'X字': '1-4'
 };
 
 const steps = [
@@ -104,7 +136,7 @@ const steps = [
   {
     id: 'step-a3',
     type: 'action',
-    label: '【発動】扇範囲',
+    label: '扇範囲',
     image: 'images/a3.png',
     placeholderTitle: '③',
     references: ['p3'],
@@ -131,7 +163,7 @@ const steps = [
   {
     id: 'step-c24',
     type: 'composite',
-    label: '【発動】頭割り/円範囲2セット',
+    label: '頭割り/円範囲2セット',
     compositeKey: '24',
     references: ['p2', 'p4'],
     actionLabel: '終わった'
@@ -139,7 +171,7 @@ const steps = [
   {
     id: 'step-a5',
     type: 'action',
-    label: '【発動】塔踏み',
+    label: '塔踏み',
     image: 'images/a5.png',
     placeholderTitle: '⑤',
     references: ['p5mode', 'p5'],
@@ -148,7 +180,7 @@ const steps = [
   {
     id: 'step-a6',
     type: 'action',
-    label: '【発動】ニアファー',
+    label: 'ニアファー',
     image: 'images/a6.png',
     placeholderTitle: '発動',
     actionLabel: '終わった'
@@ -174,7 +206,7 @@ const steps = [
   {
     id: 'step-a1-first',
     type: 'action',
-    label: '【発動】頭割り/円範囲',
+    label: '頭割り1回目',
     image: 'images/a1.png',
     placeholderTitle: '①',
     references: ['p1'],
@@ -183,7 +215,7 @@ const steps = [
   {
     id: 'step-c367-first',
     type: 'composite',
-    label: '【発動】扇範囲（島）',
+    label: '扇範囲',
     compositeKey: '367',
     references: ['p3', 'p6', 'p7'],
     actionLabel: '終わった'
@@ -191,7 +223,7 @@ const steps = [
   {
     id: 'step-a1-second',
     type: 'action',
-    label: '【発動】頭割り/円範囲',
+    label: '頭割り2回目',
     image: 'images/a1.png',
     placeholderTitle: '①',
     references: ['p1'],
@@ -200,7 +232,7 @@ const steps = [
   {
     id: 'step-c36-second',
     type: 'composite',
-    label: '【発動】扇範囲',
+    label: '扇範囲',
     compositeKey: '36',
     references: ['p3', 'p6'],
     actionLabel: '終わった'
@@ -474,6 +506,108 @@ function getActionDisplay(step) {
   };
 }
 
+function getResolvedStepImage(step) {
+  if (!step) {
+    return '';
+  }
+
+  const { p1, p2, p3, p4, p5, p6 } = state.answers;
+
+  if (step.id === 'step-a3') {
+    return p3ActionImageMap[p3] || step.image;
+  }
+
+  if (step.id === 'step-c24') {
+    return p24ImageMap[p4] || step.image;
+  }
+
+  if (step.id === 'step-a5') {
+    return p5ImageMap[p5] || step.image;
+  }
+
+  if (step.id === 'step-a1-first') {
+    const result = getFirstP1Action();
+    return p1ImageMap[result] || step.image;
+  }
+
+  if (step.id === 'step-c367-first') {
+    const pos = getTagasaPosition(p3, p6);
+    return p367ImageMap[pos] || step.image;
+  }
+
+  if (step.id === 'step-a1-second') {
+    const result = getSecondP1Action();
+    return p1ImageMap[result] || step.image;
+  }
+
+  if (step.id === 'step-c36-second') {
+    const pos = getTagasaPosition(p3, p6);
+    return p36ImageMap[pos] || step.image;
+  }
+
+  return step.image;
+}
+
+function joinTitleParts(parts) {
+  return parts.filter(Boolean).join('　');
+}
+
+function formatTitleText(value) {
+  return String(value || '未設定')
+    .split('、')
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .join('　');
+}
+
+function getResolvedStepTitle(step) {
+  if (!step) {
+    return '進行完了';
+  }
+
+  if (step.type === 'choice') {
+    return step.label;
+  }
+
+  if (step.id === 'step-a2-swap') {
+    return joinTitleParts([step.label, getP2SwapDisplay()?.text || '未設定']);
+  }
+
+  if (step.id === 'step-a3') {
+    return joinTitleParts([step.label, state.answers.p3 || '未設定']);
+  }
+
+  if (step.id === 'step-c24') {
+    const prefix = state.answers.p4 === '頭割りから' ? '【発動】頭割り先' : '【発動】円範囲先';
+    const flow = getComposite24Sequence(state.answers.p2, state.answers.p4)
+      .map((item) => item.value || '未設定')
+      .join('→');
+    return joinTitleParts([prefix, flow || '未設定']);
+  }
+
+  if (step.id === 'step-a5') {
+    return joinTitleParts([step.label, formatTitleText(getP5ActionText())]);
+  }
+
+  if (step.id === 'step-a1-first') {
+    return joinTitleParts([step.label, getFirstP1Action()]);
+  }
+
+  if (step.id === 'step-c367-first') {
+    return joinTitleParts([step.label, ...getComposite367Lines(state.answers.p3, state.answers.p6, state.answers.p7)]);
+  }
+
+  if (step.id === 'step-a1-second') {
+    return joinTitleParts([step.label, getSecondP1Action()]);
+  }
+
+  if (step.id === 'step-c36-second') {
+    return joinTitleParts([step.label, ...getComposite36Lines(state.answers.p3, state.answers.p6)]);
+  }
+
+  return step.label;
+}
+
 function render() {
   const step = getStep();
 
@@ -500,6 +634,7 @@ function renderFrame(content, step, options = {}) {
   const progress = step ? ((state.stepIndex + 1) / total) * 100 : 100;
   const subNav = renderSubNavigation(step);
   const primaryNav = options.skipPrimaryNav ? '' : renderPrimaryNavigation(step);
+  const resolvedTitle = getResolvedStepTitle(step);
 
   app.innerHTML = `
     <section class="card compact-card">
@@ -507,7 +642,7 @@ function renderFrame(content, step, options = {}) {
         <div class="progress-bar" style="width: ${progress}%;"></div>
       </div>
       ${subNav}
-      <h2 class="step-title">${escapeHtml(step?.label || '進行完了')}</h2>
+      <h2 class="step-title">${escapeHtml(resolvedTitle)}</h2>
       ${content}
       ${primaryNav}
       <section class="summary-section">${renderSummary()}</section>
@@ -581,13 +716,13 @@ function renderChoiceStep(step) {
 
 function renderActionStep(step) {
   const display = getActionDisplay(step);
-  const resultMarkup = display.lines.length
-    ? renderResultLines(display.lines, { compact: true })
-    : '';
+  const resolvedStep = {
+    ...step,
+    image: getResolvedStepImage(step)
+  };
   const primaryNav = renderPrimaryNavigation(step);
   const content = `
-    ${renderVisual(step, step.placeholderTitle, display.icon)}
-    ${resultMarkup}
+    ${renderVisual(resolvedStep, step.placeholderTitle, display.icon)}
     ${primaryNav}
     ${renderReferences(step.references || [])}
   `;
@@ -596,27 +731,21 @@ function renderActionStep(step) {
 }
 
 function renderCompositeStep(step) {
-  let resultMarkup = '';
   let icon = '🔀';
+  const resolvedStep = {
+    ...step,
+    image: getResolvedStepImage(step)
+  };
 
   if (step.compositeKey === '24') {
-    resultMarkup = renderComposite24Sequence(getComposite24Sequence(state.answers.p2, state.answers.p4));
     icon = '2️⃣';
-  } else if (step.compositeKey === '367') {
-    resultMarkup = renderResultLines(
-      getComposite367Lines(state.answers.p3, state.answers.p6, state.answers.p7),
-      { compact: true }
-    );
-    icon = '3️⃣';
-  } else if (step.compositeKey === '36') {
-    resultMarkup = renderResultLines(getComposite36Lines(state.answers.p3, state.answers.p6), { compact: true });
+  } else if (step.compositeKey === '367' || step.compositeKey === '36') {
     icon = '3️⃣';
   }
 
   const primaryNav = renderPrimaryNavigation(step);
   const content = `
-    ${renderVisual(step, step.placeholderTitle, icon)}
-    ${resultMarkup}
+    ${renderVisual(resolvedStep, step.placeholderTitle, icon)}
     ${primaryNav}
     ${renderReferences(step.references || [])}
   `;

@@ -405,6 +405,24 @@ function getP2SwapDisplay() {
   return p2SwapMap[state.answers.p2] || null;
 }
 
+function getSummaryValue(key) {
+  const value = state.answers[key];
+
+  if (!value) {
+    return '未';
+  }
+
+  if (key === 'p2') {
+    const swap = getP2SwapDisplay();
+    if (swap) {
+      const nextValue = swap.text.split('と入れ替わる')[0] || '未';
+      return `${value}→${nextValue}`;
+    }
+  }
+
+  return value;
+}
+
 function getP3PositionText() {
   return p2PositionMap[state.answers.p2] || '未設定';
 }
@@ -894,7 +912,7 @@ function renderReferences(referenceKeys) {
 function renderSummary() {
   const items = summaryConfig
     .map((item) => {
-      const value = state.answers[item.key] || '未';
+      const value = getSummaryValue(item.key);
       const emptyClass = value === '未' ? 'empty' : '';
       return `<span class="summary-chip ${emptyClass}">${escapeHtml(item.label)}:${escapeHtml(value)}</span>`;
     })

@@ -223,12 +223,11 @@ button {
 .choice-button[data-answer-key="p2"][data-value="1"],
 .choice-button[data-answer-key="p2"][data-value="A"] {
   background:
-    linear-gradient(0deg,rgba(255, 122, 168, 1) 0%, rgba(255, 230, 240, 1) 100%);
+    rgba(255, 122, 168, 1);
   border-color: #ffc4da;
   color: #ffffff;
   text-shadow: 0 0 5px #C4235F;
   box-shadow:
-    0 0 18px rgba(255, 94, 156, 0.34),
     inset 0 0 10px rgba(255, 255, 255, 0.18);
 }
 
@@ -236,23 +235,21 @@ button {
 .choice-button[data-answer-key="p2"][data-value="A"].selected {
   border-color: #ffe2ec;
   background:
-    linear-gradient(0deg, rgba(255, 108, 160, 1) 0%, rgba(255, 236, 244, 1) 100%);
+    rgba(255, 108, 160, 1);
   color: #ffffff;
   text-shadow: 0 0 5px #c4235f;
   box-shadow:
-    0 0 24px rgba(255, 120, 176, 0.48),
     inset 0 0 20px 2px #c4235f;
 }
 
 .choice-button[data-answer-key="p2"][data-value="B"],
 .choice-button[data-answer-key="p2"][data-value="2"] {
   background:
-    linear-gradient(0deg, rgba(255, 214, 64, 1) 0%, rgba(255, 248, 198, 1) 100%);
+    rgba(255, 214, 64, 1);
   border-color: #fff1a8;
   color: #fffdf2;
   text-shadow: 0 0 5px #b88900;
   box-shadow:
-    0 0 18px rgba(255, 218, 74, 0.34),
     inset 0 0 10px rgba(255, 255, 255, 0.18);
 }
 
@@ -260,23 +257,21 @@ button {
 .choice-button[data-answer-key="p2"][data-value="2"].selected {
   border-color: #fff6cc;
   background:
-    linear-gradient(0deg, rgba(255, 206, 44, 1) 0%, rgba(255, 250, 216, 1) 100%);
+    rgba(255, 206, 44, 1);
   color: #ffffff;
   text-shadow: 0 0 5px #b88900;
   box-shadow:
-    0 0 24px rgba(255, 223, 105, 0.5),
-    inset 0 0 20px 2px #b88900;
+    inset 0 0 0 1px rgba(255, 255, 255, 0.34);
 }
 
 .choice-button[data-answer-key="p2"][data-value="C"],
 .choice-button[data-answer-key="p2"][data-value="3"] {
   background:
-    linear-gradient(0deg, rgba(74, 154, 255, 1) 0%, rgba(224, 241, 255, 1) 100%);
+    rgba(74, 154, 255, 1);
   border-color: #bedfff;
   color: #f7fbff;
   text-shadow: 0 0 5px #0053bd;
   box-shadow:
-    0 0 18px rgba(84, 170, 255, 0.34),
     inset 0 0 10px rgba(255, 255, 255, 0.18);
 }
 
@@ -284,23 +279,21 @@ button {
 .choice-button[data-answer-key="p2"][data-value="3"].selected {
   border-color: #dcedff;
   background:
-    linear-gradient(0deg, rgba(52, 139, 255, 1) 0%, rgba(234, 246, 255, 1) 100%);
+    rgba(52, 139, 255, 1);
   color: #ffffff;
   text-shadow: 0 0 5px #0053bd;
   box-shadow:
-    0 0 24px rgba(112, 188, 255, 0.5),
-    inset 0 0 20px 2px #0053bd;
+    inset 0 0 0 1px rgba(255, 255, 255, 0.34);
 }
 
 .choice-button[data-answer-key="p2"][data-value="D"],
 .choice-button[data-answer-key="p2"][data-value="4"] {
   background:
-    linear-gradient(0deg, rgba(196, 103, 255, 1) 0%, rgba(245, 225, 255, 1) 100%);
+    rgba(196, 103, 255, 1);
   border-color: #e8c4ff;
   color: #fff9ff;
   text-shadow: 0 0 5px #7a29c4;
   box-shadow:
-    0 0 18px rgba(203, 121, 255, 0.34),
     inset 0 0 10px rgba(255, 255, 255, 0.18);
 }
 
@@ -308,12 +301,11 @@ button {
 .choice-button[data-answer-key="p2"][data-value="4"].selected {
   border-color: #f1dcff;
   background:
-    linear-gradient(0deg, rgba(182, 87, 247, 1) 0%, rgba(249, 236, 255, 1) 100%);
+    rgba(182, 87, 247, 1);
   color: #ffffff;
   text-shadow: 0 0 5px #7a29c4;
   box-shadow:
-    0 0 24px rgba(210, 143, 255, 0.5),
-    inset 0 0 20px 2px #7a29c4;
+    inset 0 0 0 1px rgba(255, 255, 255, 0.34);
 }
 
 .primary-button {

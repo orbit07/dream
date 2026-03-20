@@ -833,11 +833,11 @@ function renderChoiceStep(step) {
         ${renderChoiceButton('1')}
         ${renderChoiceButton('A')}
         ${renderChoiceButton('2')}
-        ${renderChoiceButton('B')}
-        <div class="choice-grid-p2-empty" aria-hidden="true"></div>
-        ${renderChoiceButton('C')}
-        ${renderChoiceButton('4')}
         ${renderChoiceButton('D')}
+        <div class="choice-grid-p2-empty" aria-hidden="true"></div>
+        ${renderChoiceButton('B')}
+        ${renderChoiceButton('4')}
+        ${renderChoiceButton('C')}
         ${renderChoiceButton('3')}
       </div>
     `

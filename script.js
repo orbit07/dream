@@ -248,7 +248,7 @@ const steps = [
   {
     id: 'step-a6',
     type: 'action',
-    label: 'ニアファー',
+    label: 'ニア/ファー',
     image: 'images/a6.png',
     placeholderTitle: '発動',
     actionLabel: '終わった'

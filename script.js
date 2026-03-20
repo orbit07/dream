@@ -764,6 +764,7 @@ function renderFrame(content, step, options = {}) {
   const progress = step ? ((state.stepIndex + 1) / total) * 100 : 100;
   const subNav = renderSubNavigation(step);
   const primaryNav = options.skipPrimaryNav ? '' : renderPrimaryNavigation(step);
+  const footerContent = options.footerContent || '';
   const resolvedTitle = getResolvedStepTitle(step);
 
   app.innerHTML = `
@@ -773,9 +774,12 @@ function renderFrame(content, step, options = {}) {
       </div>
       ${subNav}
       <h2 class="step-title">${escapeHtml(resolvedTitle)}</h2>
-      ${content}
-      ${primaryNav}
-      <section class="summary-section">${renderSummary()}</section>
+      <div class="card-content">${content}</div>
+      <div class="card-footer">
+        ${footerContent ? `<div class="footer-actions">${footerContent}</div>` : ''}
+        ${primaryNav}
+        <section class="summary-section">${renderSummary()}</section>
+      </div>
     </section>
   `;
 
@@ -839,9 +843,7 @@ function renderChoiceStep(step) {
     `
     : `<div class="choice-grid">${step.choices.map(renderChoiceButton).join('')}</div>`;
 
-  const content = choices;
-
-  renderFrame(content, step);
+  renderFrame('', step, { footerContent: choices });
 }
 
 function renderActionStep(step) {
@@ -850,14 +852,12 @@ function renderActionStep(step) {
     ...step,
     image: getResolvedStepImage(step)
   };
-  const primaryNav = renderPrimaryNavigation(step);
   const content = `
     ${renderVisual(resolvedStep, step.placeholderTitle, display.icon)}
-    ${primaryNav}
     ${renderReferences(step.references || [])}
   `;
 
-  renderFrame(content, step, { skipPrimaryNav: true });
+  renderFrame(content, step);
 }
 
 function renderCompositeStep(step) {
@@ -873,14 +873,12 @@ function renderCompositeStep(step) {
     icon = '3️⃣';
   }
 
-  const primaryNav = renderPrimaryNavigation(step);
   const content = `
     ${renderVisual(resolvedStep, step.placeholderTitle, icon)}
-    ${primaryNav}
     ${renderReferences(step.references || [])}
   `;
 
-  renderFrame(content, step, { skipPrimaryNav: true });
+  renderFrame(content, step);
 }
 
 function renderComplete() {

@@ -38,6 +38,40 @@ const p2SwapMap = {
 
 const p2SwapTargets = ['1', 'B', '4', 'C'];
 
+const p2PositionMap = {
+  A: 'A',
+  B: '1',
+  C: '4',
+  D: 'D',
+  '1': 'B',
+  '2': '2',
+  '3': '3',
+  '4': 'C'
+};
+
+const p24ReplicaSwapMap = {
+  '円範囲から': {
+    A: '2',
+    B: 'D',
+    C: 'C',
+    D: '1',
+    '1': '3',
+    '2': 'A',
+    '3': 'B',
+    '4': '4'
+  },
+  '頭割りから': {
+    A: 'A',
+    B: '1',
+    C: '4',
+    D: 'D',
+    '1': 'B',
+    '2': '2',
+    '3': '3',
+    '4': 'C'
+  }
+};
+
 const p5ActionMap = {
   '炎': '動かない',
   '風': '対岸へ',
@@ -125,6 +159,14 @@ const steps = [
     choices: ['1-2安置', '3-4安置']
   },
   {
+    id: 'step-p3-position',
+    type: 'action',
+    label: '立ち位置',
+    placeholderTitle: '立ち位置',
+    references: ['p2'],
+    actionLabel: '終わった'
+  },
+  {
     id: 'step-p4',
     type: 'choice',
     label: '【予告】レプリ',
@@ -132,6 +174,14 @@ const steps = [
     image: 'images/p4.png',
     placeholderTitle: '④',
     choices: ['円範囲から', '頭割りから']
+  },
+  {
+    id: 'step-p4-swap',
+    type: 'action',
+    label: '入れ替え',
+    placeholderTitle: '入れ替え',
+    references: ['p2', 'p4'],
+    actionLabel: '終わった'
   },
   {
     id: 'step-a3',
@@ -149,7 +199,7 @@ const steps = [
     answerKey: 'p5mode',
     image: 'images/p5-mode.png',
     placeholderTitle: '⑤-前半',
-    choices: ['初期位置', '交換']
+    choices: ['初期位置', '入れ替え']
   },
   {
     id: 'step-p5',
@@ -286,8 +336,20 @@ function shouldShowP2SwapStep() {
   return p2SwapTargets.includes(state.answers.p2);
 }
 
+function shouldShowReplicaSwapStep() {
+  return state.answers.p4 === '円範囲から';
+}
+
 function shouldSkipStep(step) {
-  return step?.id === 'step-a2-swap' && !shouldShowP2SwapStep();
+  if (step?.id === 'step-a2-swap') {
+    return !shouldShowP2SwapStep();
+  }
+
+  if (step?.id === 'step-p4-swap') {
+    return !shouldShowReplicaSwapStep();
+  }
+
+  return false;
 }
 
 function getNormalizedStepIndex(index) {
@@ -334,6 +396,15 @@ function getPrevStepIndex(currentIndex = state.stepIndex) {
 
 function getP2SwapDisplay() {
   return p2SwapMap[state.answers.p2] || null;
+}
+
+function getP3PositionText() {
+  return p2PositionMap[state.answers.p2] || '未設定';
+}
+
+function getReplicaSwapText() {
+  const map = p24ReplicaSwapMap[state.answers.p4];
+  return map?.[state.answers.p2] || '未設定';
 }
 
 function getFirstP1Action() {
@@ -465,6 +536,20 @@ function getActionDisplay(step) {
     };
   }
 
+  if (step.id === 'step-p3-position') {
+    return {
+      icon: '📍',
+      lines: [getP3PositionText()]
+    };
+  }
+
+  if (step.id === 'step-p4-swap') {
+    return {
+      icon: '🔄',
+      lines: [getReplicaSwapText()]
+    };
+  }
+
   if (step.id === 'step-a3') {
     return {
       icon: '3️⃣',
@@ -573,8 +658,16 @@ function getResolvedStepTitle(step) {
     return joinTitleParts([step.label, getP2SwapDisplay()?.text || '未設定']);
   }
 
+  if (step.id === 'step-p3-position') {
+    return joinTitleParts([step.label, getP3PositionText()]);
+  }
+
   if (step.id === 'step-a3') {
     return joinTitleParts([step.label, state.answers.p3 || '未設定']);
+  }
+
+  if (step.id === 'step-p4-swap') {
+    return joinTitleParts([step.label, getReplicaSwapText()]);
   }
 
   if (step.id === 'step-c24') {

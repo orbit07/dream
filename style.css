@@ -223,92 +223,74 @@ button {
 .choice-button[data-answer-key="p2"][data-value="1"],
 .choice-button[data-answer-key="p2"][data-value="A"] {
   background:
-    rgba(255, 122, 168, 1);
-  border-color: #ffc4da;
+    linear-gradient(135deg, #ff7fb0 0%, #ffb3cc 100%);
   color: #ffffff;
-  text-shadow: 0 0 5px #C4235F;
-  box-shadow:
-    inset 0 0 10px rgba(255, 255, 255, 0.18);
+  text-shadow: 0 0 5px #d04078;
 }
 
 .choice-button[data-answer-key="p2"][data-value="1"].selected,
 .choice-button[data-answer-key="p2"][data-value="A"].selected {
-  border-color: #ffe2ec;
   background:
-    rgba(255, 108, 160, 1);
+    linear-gradient(135deg, #ff6aa5 0%, #ff9fbe 100%);
+  border-color: #ffffff33;
   color: #ffffff;
-  text-shadow: 0 0 5px #c4235f;
-  box-shadow:
-    inset 0 0 20px 2px #c4235f;
+  text-shadow: 0 0 5px #d04078;
 }
 
 .choice-button[data-answer-key="p2"][data-value="B"],
 .choice-button[data-answer-key="p2"][data-value="2"] {
   background:
-    rgba(255, 214, 64, 1);
-  border-color: #fff1a8;
-  color: #fffdf2;
-  text-shadow: 0 0 5px #b88900;
-  box-shadow:
-    inset 0 0 10px rgba(255, 255, 255, 0.18);
+    linear-gradient(135deg, #ffc95a 0%, #ffe08f 100%);
+  color: #ffffff;
+  text-shadow: 0 0 5px #c78700;
 }
 
 .choice-button[data-answer-key="p2"][data-value="B"].selected,
 .choice-button[data-answer-key="p2"][data-value="2"].selected {
-  border-color: #fff6cc;
   background:
-    rgba(255, 206, 44, 1);
+    linear-gradient(135deg, #ffbd3f 0%, #ffd874 100%);
+  border-color: #ffffff33;
   color: #ffffff;
-  text-shadow: 0 0 5px #b88900;
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.34);
+  text-shadow: 0 0 5px #c78700;
 }
 
 .choice-button[data-answer-key="p2"][data-value="C"],
 .choice-button[data-answer-key="p2"][data-value="3"] {
   background:
-    rgba(74, 154, 255, 1);
-  border-color: #bedfff;
-  color: #f7fbff;
-  text-shadow: 0 0 5px #0053bd;
-  box-shadow:
-    inset 0 0 10px rgba(255, 255, 255, 0.18);
+    linear-gradient(135deg, #69acff 0%, #9ccdff 100%);
+  color: #ffffff;
+  text-shadow: 0 0 5px #236ac3;
 }
 
 .choice-button[data-answer-key="p2"][data-value="C"].selected,
 .choice-button[data-answer-key="p2"][data-value="3"].selected {
-  border-color: #dcedff;
   background:
-    rgba(52, 139, 255, 1);
+    linear-gradient(135deg, #579eff 0%, #88beff 100%);
+  border-color: #ffffff33;
   color: #ffffff;
-  text-shadow: 0 0 5px #0053bd;
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.34);
+  text-shadow: 0 0 5px #236ac3;
 }
 
 .choice-button[data-answer-key="p2"][data-value="D"],
 .choice-button[data-answer-key="p2"][data-value="4"] {
   background:
-    rgba(196, 103, 255, 1);
-  border-color: #e8c4ff;
-  color: #fff9ff;
-  text-shadow: 0 0 5px #7a29c4;
-  box-shadow:
-    inset 0 0 10px rgba(255, 255, 255, 0.18);
+    linear-gradient(135deg, #bc84ff 0%, #d9b0ff 100%);
+  color: #ffffff;
+  text-shadow: 0 0 5px #7040a8;
 }
 
 .choice-button[data-answer-key="p2"][data-value="D"].selected,
 .choice-button[data-answer-key="p2"][data-value="4"].selected {
-  border-color: #f1dcff;
   background:
-    rgba(182, 87, 247, 1);
+    linear-gradient(135deg, #ae70ff 0%, #cb98ff 100%);
+  border-color: #ffffff33;
   color: #ffffff;
-  text-shadow: 0 0 5px #7a29c4;
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.34);
+  text-shadow: 0 0 5px #7040a8;
 }
 
 .primary-button {
+  font-size: 1.2rem;
+  font-weight: 600;
   min-width: min(100%, 220px);
   background: linear-gradient(135deg, var(--accent), #6984ff);
   border-color: transparent;

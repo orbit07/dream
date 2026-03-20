@@ -118,6 +118,17 @@ const p36ImageMap = {
   'タゲサ内': 'img/p36_uchi.png'
 };
 
+const fieldImageMap = {
+  '1': 'img/field_1.png',
+  '2': 'img/field_2.png',
+  '3': 'img/field_3.png',
+  '4': 'img/field_4.png',
+  A: 'img/field_a.png',
+  B: 'img/field_b.png',
+  C: 'img/field_c.png',
+  D: 'img/field_d.png'
+};
+
 const p1FirstMap = {
   '十字': '1-4',
   'X字': 'A-D'
@@ -620,6 +631,10 @@ function getActionDisplay(step) {
   };
 }
 
+function getFieldImage(value) {
+  return fieldImageMap[value] || '';
+}
+
 function getResolvedStepImage(step) {
   if (!step) {
     return '';
@@ -629,6 +644,18 @@ function getResolvedStepImage(step) {
 
   if (step.id === 'step-a3') {
     return p3ActionImageMap[p3] || step.image;
+  }
+
+  if (step.id === 'step-a2-swap') {
+    return getFieldImage(getP2SwapDisplay()?.text) || step.image;
+  }
+
+  if (step.id === 'step-p3-position') {
+    return getFieldImage(getP3PositionText()) || step.image;
+  }
+
+  if (step.id === 'step-p4-swap') {
+    return getFieldImage(getReplicaSwapText()) || step.image;
   }
 
   if (step.id === 'step-c24') {

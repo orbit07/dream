@@ -853,8 +853,8 @@ function renderActionStep(step) {
     image: getResolvedStepImage(step)
   };
   const content = `
-    ${renderVisual(resolvedStep, step.placeholderTitle, display.icon)}
     ${renderReferences(step.references || [])}
+    ${renderVisual(resolvedStep, step.placeholderTitle, display.icon)}
   `;
 
   renderFrame(content, step);
@@ -874,8 +874,8 @@ function renderCompositeStep(step) {
   }
 
   const content = `
-    ${renderVisual(resolvedStep, step.placeholderTitle, icon)}
     ${renderReferences(step.references || [])}
+    ${renderVisual(resolvedStep, step.placeholderTitle, icon)}
   `;
 
   renderFrame(content, step);

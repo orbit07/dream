@@ -213,79 +213,87 @@ button {
 }
 
 .choice-button {
-  background: #e8eeff;
-  border-color: #f4f7ff;
-  color: #09101f;
+  background: #5b6692;
+  border-color: #7480ad;
+  color: #ffffff;
   font-size: 1.2rem;
   font-weight: 600;
 }
 
 .choice-button[data-answer-key="p2"][data-value="1"],
-.choice-button[data-answer-key="p2"][data-value="A"] {
+.choice-button[data-answer-key="p2"][data-value="A"],
+.choice-button[data-answer-key="p3"][data-value="1-2安置"],
+.choice-button[data-answer-key="p5mode"][data-value="初期位置"],
+.choice-button[data-answer-key="p6"][data-value="北ワープ"] {
   background:
-    linear-gradient(135deg, #ff7fb0 0%, #ffb3cc 100%);
+    linear-gradient(135deg, #ff7fb0 0%, #ff518a 100%);
   color: #ffffff;
-  text-shadow: 0 0 5px #d04078;
 }
 
 .choice-button[data-answer-key="p2"][data-value="1"].selected,
-.choice-button[data-answer-key="p2"][data-value="A"].selected {
+.choice-button[data-answer-key="p2"][data-value="A"].selected,
+.choice-button[data-answer-key="p3"][data-value="1-2安置"].selected,
+.choice-button[data-answer-key="p5mode"][data-value="初期位置"].selected,
+.choice-button[data-answer-key="p6"][data-value="北ワープ"].selected {
   background:
-    linear-gradient(135deg, #ff6aa5 0%, #ff9fbe 100%);
+    linear-gradient(135deg, #ff6fa6 0%, #fc4180 100%);
   border-color: #ffffff33;
   color: #ffffff;
-  text-shadow: 0 0 5px #d04078;
 }
 
 .choice-button[data-answer-key="p2"][data-value="B"],
-.choice-button[data-answer-key="p2"][data-value="2"] {
+.choice-button[data-answer-key="p2"][data-value="2"],
+.choice-button[data-answer-key="p7"][data-value="B安置"] {
   background:
-    linear-gradient(135deg, #ffc95a 0%, #ffe08f 100%);
+    linear-gradient(135deg, #ffc95a 0%, #cf9d1b 100%);
   color: #ffffff;
-  text-shadow: 0 0 5px #c78700;
 }
 
 .choice-button[data-answer-key="p2"][data-value="B"].selected,
-.choice-button[data-answer-key="p2"][data-value="2"].selected {
+.choice-button[data-answer-key="p2"][data-value="2"].selected,
+.choice-button[data-answer-key="p7"][data-value="B安置"].selected {
   background:
-    linear-gradient(135deg, #ffbd3f 0%, #ffd874 100%);
+    linear-gradient(135deg, #ffc34a 0%, #cd970e 100%);
   border-color: #ffffff33;
   color: #ffffff;
-  text-shadow: 0 0 5px #c78700;
 }
 
 .choice-button[data-answer-key="p2"][data-value="C"],
-.choice-button[data-answer-key="p2"][data-value="3"] {
+.choice-button[data-answer-key="p2"][data-value="3"],
+.choice-button[data-answer-key="p3"][data-value="3-4安置"],
+.choice-button[data-answer-key="p6"][data-value="南ワープ"] {
   background:
-    linear-gradient(135deg, #69acff 0%, #9ccdff 100%);
+    linear-gradient(135deg, #579eff 0%, #1b83ff 100%);
   color: #ffffff;
-  text-shadow: 0 0 5px #236ac3;
 }
 
 .choice-button[data-answer-key="p2"][data-value="C"].selected,
-.choice-button[data-answer-key="p2"][data-value="3"].selected {
+.choice-button[data-answer-key="p2"][data-value="3"].selected,
+.choice-button[data-answer-key="p3"][data-value="3-4安置"].selected,
+.choice-button[data-answer-key="p6"][data-value="南ワープ"].selected {
   background:
-    linear-gradient(135deg, #579eff 0%, #88beff 100%);
+    linear-gradient(135deg, #4a95ff 0%, #0a79ff 100%);
   border-color: #ffffff33;
   color: #ffffff;
-  text-shadow: 0 0 5px #236ac3;
 }
 
 .choice-button[data-answer-key="p2"][data-value="D"],
-.choice-button[data-answer-key="p2"][data-value="4"] {
+.choice-button[data-answer-key="p2"][data-value="4"],
+.choice-button[data-answer-key="p5mode"][data-value="入れ替え"],
+.choice-button[data-answer-key="p7"][data-value="D安置"] {
   background:
-    linear-gradient(135deg, #bc84ff 0%, #d9b0ff 100%);
+    linear-gradient(135deg, #af6cff 0%, #7b36b9 100%);
   color: #ffffff;
-  text-shadow: 0 0 5px #7040a8;
 }
 
 .choice-button[data-answer-key="p2"][data-value="D"].selected,
-.choice-button[data-answer-key="p2"][data-value="4"].selected {
+.choice-button[data-answer-key="p2"][data-value="4"].selected,
+.choice-button[data-answer-key="p5mode"][data-value="入れ替え"].selected,
+.choice-button[data-answer-key="p7"][data-value="D安置"].selected {
   background:
-    linear-gradient(135deg, #ae70ff 0%, #cb98ff 100%);
+    linear-gradient(135deg, #a862fe 0%, #772cb9 100%);
   border-color: #ffffff33;
   color: #ffffff;
-  text-shadow: 0 0 5px #7040a8;
 }
 
 .primary-button {

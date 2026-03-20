@@ -123,6 +123,17 @@ button {
   object-fit: contain;
 }
 
+.visual-box-pair {
+  gap: 12px;
+  justify-content: center;
+}
+
+.visual-box-pair img {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: calc(50% - 6px);
+}
+
 .placeholder {
   width: 100%;
   display: grid;

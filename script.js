@@ -834,6 +834,26 @@ function renderVisual(step, fallbackTitle, icon = '🖼️') {
   `;
 }
 
+function renderVisualPair(images, fallbackTitle, icon = '🖼️') {
+  const imageMarkup = images
+    .filter(Boolean)
+    .map(
+      ({ src, alt }) =>
+        `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" onerror="this.remove()">`
+    )
+    .join('');
+
+  if (!imageMarkup) {
+    return renderVisual(null, fallbackTitle, icon);
+  }
+
+  return `
+    <div class="visual-box visual-box-pair">
+      ${imageMarkup}
+    </div>
+  `;
+}
+
 function renderChoiceStep(step) {
   const selected = state.answers[step.answerKey];
   const isP2Layout = step.answerKey === 'p2';
@@ -893,6 +913,9 @@ function renderCompositeStep(step) {
     ...step,
     image: getResolvedStepImage(step)
   };
+  const sequence = step.compositeKey === '24'
+    ? getComposite24Sequence(state.answers.p2, state.answers.p4)
+    : [];
 
   if (step.compositeKey === '24') {
     icon = '2️⃣';
@@ -900,9 +923,27 @@ function renderCompositeStep(step) {
     icon = '3️⃣';
   }
 
+  const visual =
+    step.compositeKey === '24'
+      ? renderVisualPair(
+          [
+            {
+              src: getFieldImage(sequence[0]?.value),
+              alt: `${step.label} 開始位置`
+            },
+            {
+              src: resolvedStep.image,
+              alt: resolvedStep.label
+            }
+          ],
+          step.placeholderTitle,
+          icon
+        )
+      : renderVisual(resolvedStep, step.placeholderTitle, icon);
+
   const content = `
     ${renderReferences(step.references || [])}
-    ${renderVisual(resolvedStep, step.placeholderTitle, icon)}
+    ${visual}
   `;
 
   renderFrame(content, step);

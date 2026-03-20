@@ -125,13 +125,43 @@ button {
 
 .visual-box-pair {
   gap: 12px;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .visual-box-pair img {
-  flex: 1 1 0;
   min-width: 0;
-  max-width: calc(50% - 6px);
+  max-width: 100%;
+}
+
+.visual-pair-slot {
+  display: flex;
+  min-width: 0;
+}
+
+.visual-box-pair .visual-pair-left {
+  flex: 0 1 20%;
+  max-width: 20%;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.visual-box-pair .visual-pair-right {
+  flex: 0 1 80%;
+  max-width: 80%;
+  justify-content: center;
+  align-items: center;
+}
+
+.visual-swap-indicator {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  background: rgba(143, 125, 255, 0.15);
+  border: 1px solid rgba(143, 125, 255, 0.35);
+  font-size: 2rem;
 }
 
 .placeholder {

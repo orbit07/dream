@@ -731,7 +731,7 @@ function getResolvedStepTitle(step) {
   }
 
   if (step.id === 'step-c24') {
-    const prefix = state.answers.p4 === '頭割りから' ? '【発動】頭割り先' : '【発動】円範囲先';
+    const prefix = state.answers.p4 === '頭割りから' ? '頭割り先' : '円範囲先';
     const flow = getComposite24Sequence(state.answers.p2, state.answers.p4)
       .map((item) => item.value || '未設定')
       .join('→');
@@ -837,10 +837,14 @@ function renderVisual(step, fallbackTitle, icon = '🖼️') {
 function renderVisualPair(images, fallbackTitle, icon = '🖼️') {
   const imageMarkup = images
     .filter(Boolean)
-    .map(
-      ({ src, alt }) =>
-        `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" onerror="this.remove()">`
-    )
+    .map(({ src, alt }, index) => {
+      const slotClass = index === 0 ? 'visual-pair-left' : 'visual-pair-right';
+      return `
+        <div class="visual-pair-slot ${slotClass}">
+          <img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" onerror="this.remove()">
+        </div>
+      `;
+    })
     .join('');
 
   if (!imageMarkup) {
@@ -850,6 +854,23 @@ function renderVisualPair(images, fallbackTitle, icon = '🖼️') {
   return `
     <div class="visual-box visual-box-pair">
       ${imageMarkup}
+    </div>
+  `;
+}
+
+function renderSwapVisualWithImage(imageSrc, alt, fallbackTitle, icon = '🖼️') {
+  if (!imageSrc) {
+    return renderVisual(null, fallbackTitle, icon);
+  }
+
+  return `
+    <div class="visual-box visual-box-pair">
+      <div class="visual-pair-slot visual-pair-left">
+        <div class="visual-swap-indicator" aria-label="入れ替え">🔄</div>
+      </div>
+      <div class="visual-pair-slot visual-pair-right">
+        <img src="${escapeHtml(imageSrc)}" alt="${escapeHtml(alt)}" onerror="this.remove()">
+      </div>
     </div>
   `;
 }
@@ -899,9 +920,13 @@ function renderActionStep(step) {
     ...step,
     image: getResolvedStepImage(step)
   };
+  const visual =
+    step.id === 'step-a5' && state.answers.p5mode === '入れ替え'
+      ? renderSwapVisualWithImage(resolvedStep.image, resolvedStep.label, step.placeholderTitle, display.icon)
+      : renderVisual(resolvedStep, step.placeholderTitle, display.icon);
   const content = `
     ${renderReferences(step.references || [])}
-    ${renderVisual(resolvedStep, step.placeholderTitle, display.icon)}
+    ${visual}
   `;
 
   renderFrame(content, step);

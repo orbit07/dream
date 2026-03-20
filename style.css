@@ -236,11 +236,12 @@ button {
 .choice-button[data-answer-key="p2"][data-value="A"].selected {
   border-color: #ffe2ec;
   background:
-    radial-gradient(circle at 50% 24%, rgba(255, 255, 255, 1) 0%, rgba(255, 239, 245, 0.98) 16%, rgba(255, 140, 182, 0.98) 40%, rgba(214, 46, 109, 1) 100%);
+    linear-gradient(0deg, rgba(255, 108, 160, 1) 0%, rgba(255, 236, 244, 1) 100%);
   color: #ffffff;
+  text-shadow: 0 0 5px #c4235f;
   box-shadow:
     0 0 24px rgba(255, 120, 176, 0.48),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.36);
+    inset 0 0 20px 2px #c4235f;
 }
 
 .choice-button[data-answer-key="p2"][data-value="B"],
@@ -259,11 +260,12 @@ button {
 .choice-button[data-answer-key="p2"][data-value="2"].selected {
   border-color: #fff6cc;
   background:
-    radial-gradient(circle at 50% 24%, rgba(255, 255, 255, 1) 0%, rgba(255, 251, 233, 0.98) 16%, rgba(255, 232, 118, 0.98) 40%, rgba(207, 151, 6, 1) 100%);
+    linear-gradient(0deg, rgba(255, 206, 44, 1) 0%, rgba(255, 250, 216, 1) 100%);
   color: #ffffff;
+  text-shadow: 0 0 5px #b88900;
   box-shadow:
     0 0 24px rgba(255, 223, 105, 0.5),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.34);
+    inset 0 0 20px 2px #b88900;
 }
 
 .choice-button[data-answer-key="p2"][data-value="C"],
@@ -282,11 +284,12 @@ button {
 .choice-button[data-answer-key="p2"][data-value="3"].selected {
   border-color: #dcedff;
   background:
-    radial-gradient(circle at 50% 24%, rgba(255, 255, 255, 1) 0%, rgba(238, 248, 255, 0.98) 16%, rgba(115, 188, 255, 0.98) 40%, rgba(23, 106, 216, 1) 100%);
+    linear-gradient(0deg, rgba(52, 139, 255, 1) 0%, rgba(234, 246, 255, 1) 100%);
   color: #ffffff;
+  text-shadow: 0 0 5px #0053bd;
   box-shadow:
     0 0 24px rgba(112, 188, 255, 0.5),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.34);
+    inset 0 0 20px 2px #0053bd;
 }
 
 .choice-button[data-answer-key="p2"][data-value="D"],
@@ -305,11 +308,12 @@ button {
 .choice-button[data-answer-key="p2"][data-value="4"].selected {
   border-color: #f1dcff;
   background:
-    radial-gradient(circle at 50% 24%, rgba(255, 255, 255, 1) 0%, rgba(251, 240, 255, 0.98) 16%, rgba(219, 152, 255, 0.98) 40%, rgba(145, 61, 222, 1) 100%);
+    linear-gradient(0deg, rgba(182, 87, 247, 1) 0%, rgba(249, 236, 255, 1) 100%);
   color: #ffffff;
+  text-shadow: 0 0 5px #7a29c4;
   box-shadow:
     0 0 24px rgba(210, 143, 255, 0.5),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.34);
+    inset 0 0 20px 2px #7a29c4;
 }
 
 .primary-button {

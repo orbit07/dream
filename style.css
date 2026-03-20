@@ -220,6 +220,39 @@ button {
   font-weight: 600;
 }
 
+
+.choice-button[data-answer-key="p1"][data-value="X字"],
+.choice-button[data-answer-key="p4"][data-value="頭割りから"] {
+  background:
+    linear-gradient(135deg, #ffb25c 0%, #ff8a1f 100%);
+  color: #ffffff;
+}
+
+.choice-button[data-answer-key="p1"][data-value="X字"].selected,
+.choice-button[data-answer-key="p4"][data-value="頭割りから"].selected {
+  background:
+    linear-gradient(135deg, #ffa64a 0%, #ff7f0f 100%);
+  border-color: #ffffff33;
+  color: #ffffff;
+}
+
+.choice-button[data-answer-key="p1"][data-value="十字"],
+.choice-button[data-answer-key="p4"][data-value="円範囲から"],
+.choice-button[data-answer-key="p5"][data-value="炎"] {
+  background:
+    linear-gradient(135deg, #ff7a6b 0%, #e04444 100%);
+  color: #ffffff;
+}
+
+.choice-button[data-answer-key="p1"][data-value="十字"].selected,
+.choice-button[data-answer-key="p4"][data-value="円範囲から"].selected,
+.choice-button[data-answer-key="p5"][data-value="炎"].selected {
+  background:
+    linear-gradient(135deg, #ff6c5c 0%, #d93636 100%);
+  border-color: #ffffff33;
+  color: #ffffff;
+}
+
 .choice-button[data-answer-key="p2"][data-value="1"],
 .choice-button[data-answer-key="p2"][data-value="A"],
 .choice-button[data-answer-key="p3"][data-value="1-2安置"],
@@ -243,6 +276,7 @@ button {
 
 .choice-button[data-answer-key="p2"][data-value="B"],
 .choice-button[data-answer-key="p2"][data-value="2"],
+.choice-button[data-answer-key="p5"][data-value="土"],
 .choice-button[data-answer-key="p7"][data-value="B安置"] {
   background:
     linear-gradient(135deg, #ffc95a 0%, #cf9d1b 100%);
@@ -251,9 +285,23 @@ button {
 
 .choice-button[data-answer-key="p2"][data-value="B"].selected,
 .choice-button[data-answer-key="p2"][data-value="2"].selected,
+.choice-button[data-answer-key="p5"][data-value="土"].selected,
 .choice-button[data-answer-key="p7"][data-value="B安置"].selected {
   background:
     linear-gradient(135deg, #ffc34a 0%, #cd970e 100%);
+  border-color: #ffffff33;
+  color: #ffffff;
+}
+
+.choice-button[data-answer-key="p5"][data-value="風"] {
+  background:
+    linear-gradient(135deg, #7cd88d 0%, #2ca75a 100%);
+  color: #ffffff;
+}
+
+.choice-button[data-answer-key="p5"][data-value="風"].selected {
+  background:
+    linear-gradient(135deg, #6fd382 0%, #249e51 100%);
   border-color: #ffffff33;
   color: #ffffff;
 }
@@ -279,6 +327,7 @@ button {
 
 .choice-button[data-answer-key="p2"][data-value="D"],
 .choice-button[data-answer-key="p2"][data-value="4"],
+.choice-button[data-answer-key="p5"][data-value="闇"],
 .choice-button[data-answer-key="p5mode"][data-value="入れ替え"],
 .choice-button[data-answer-key="p7"][data-value="D安置"] {
   background:
@@ -288,6 +337,7 @@ button {
 
 .choice-button[data-answer-key="p2"][data-value="D"].selected,
 .choice-button[data-answer-key="p2"][data-value="4"].selected,
+.choice-button[data-answer-key="p5"][data-value="闇"].selected,
 .choice-button[data-answer-key="p5mode"][data-value="入れ替え"].selected,
 .choice-button[data-answer-key="p7"][data-value="D安置"].selected {
   background:

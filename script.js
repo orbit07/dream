@@ -30,10 +30,10 @@ const state = {
 };
 
 const p2SwapMap = {
-  '1': { text: 'Bと入れ替わる', icon: '🔄' },
-  B: { text: '1と入れ替わる', icon: '🔄' },
-  '4': { text: 'Cと入れ替わる', icon: '🔄' },
-  C: { text: '4と入れ替わる', icon: '🔄' }
+  '1': { text: 'B', icon: '🔄' },
+  B: { text: '1', icon: '🔄' },
+  '4': { text: 'C', icon: '🔄' },
+  C: { text: '4', icon: '🔄' }
 };
 
 const p2SwapTargets = ['1', 'B', '4', 'C'];
@@ -77,6 +77,13 @@ const p5ActionMap = {
   '風': '対岸へ',
   '土': '避ける',
   '闇': '南へ'
+};
+
+const nearFarPositionMap = {
+  炎: '南数字マーカー南',
+  土: '南数字マーカー南',
+  風: 'タゲサ南',
+  闇: '南数字マーカー北角'
 };
 
 const p3ActionImageMap = {
@@ -143,7 +150,7 @@ const steps = [
   {
     id: 'step-a2-swap',
     type: 'action',
-    label: '【入れ替え】分身出現',
+    label: '入れ替え',
     image: 'images/a2-swap.png',
     placeholderTitle: '②',
     references: ['p2'],
@@ -421,6 +428,10 @@ function getP5ActionText() {
   return `${mode}、${action}`;
 }
 
+function getNearFarPositionText() {
+  return nearFarPositionMap[state.answers.p5] || '未設定';
+}
+
 function getP2CircleSequence(p2) {
   if (p2 === 'C') {
     return ['1', 'C'];
@@ -567,7 +578,7 @@ function getActionDisplay(step) {
   if (step.id === 'step-a6') {
     return {
       icon: '⚔️',
-      lines: ['確認']
+      lines: [getNearFarPositionText()]
     };
   }
 
@@ -608,6 +619,10 @@ function getResolvedStepImage(step) {
 
   if (step.id === 'step-a5') {
     return p5ImageMap[p5] || step.image;
+  }
+
+  if (step.id === 'step-a6') {
+    return 'img/nf.png';
   }
 
   if (step.id === 'step-a1-first') {
@@ -680,6 +695,10 @@ function getResolvedStepTitle(step) {
 
   if (step.id === 'step-a5') {
     return joinTitleParts([step.label, formatTitleText(getP5ActionText())]);
+  }
+
+  if (step.id === 'step-a6') {
+    return joinTitleParts([step.label, getNearFarPositionText()]);
   }
 
   if (step.id === 'step-a1-first') {

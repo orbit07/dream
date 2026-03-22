@@ -129,6 +129,16 @@ const fieldImageMap = {
   D: 'img/field_d.png'
 };
 
+const idleCallback = window.requestIdleCallback || ((callback) => window.setTimeout(callback, 120));
+const preloadedImages = new Set();
+const eagerImageCandidates = [
+  'img/nf.png',
+  ...Object.values(p3ActionImageMap),
+  ...Object.values(p367ImageMap),
+  ...Object.values(p36ImageMap),
+  ...Object.values(fieldImageMap)
+];
+
 const p1FirstMap = {
   '十字': '1-4',
   'X字': 'A-D'
@@ -635,6 +645,77 @@ function getFieldImage(value) {
   return fieldImageMap[value] || '';
 }
 
+function preloadImage(src, options = {}) {
+  if (!src || preloadedImages.has(src)) {
+    return;
+  }
+
+  preloadedImages.add(src);
+
+  const image = new Image();
+  image.decoding = 'async';
+
+  if (options.fetchPriority && 'fetchPriority' in image) {
+    image.fetchPriority = options.fetchPriority;
+  }
+
+  image.src = src;
+}
+
+function getStepImageSources(step) {
+  if (!step) {
+    return [];
+  }
+
+  const sources = [getResolvedStepImage(step)];
+
+  if (step.type === 'composite' && step.compositeKey === '24') {
+    const sequence = getComposite24Sequence(state.answers.p2, state.answers.p4);
+    sources.push(getFieldImage(sequence[0]?.value));
+  }
+
+  return sources.filter(Boolean);
+}
+
+function warmUpcomingImages() {
+  const currentStep = getStep();
+  const currentSources = getStepImageSources(currentStep);
+
+  currentSources.forEach((src) => preloadImage(src, { fetchPriority: 'high' }));
+
+  let upcomingIndex = state.stepIndex;
+  let queuedSteps = 0;
+
+  while (queuedSteps < 2 && upcomingIndex < steps.length) {
+    upcomingIndex = getNextStepIndex(upcomingIndex);
+
+    if (upcomingIndex >= steps.length) {
+      break;
+    }
+
+    getStepImageSources(steps[upcomingIndex]).forEach((src) => preloadImage(src));
+    queuedSteps += 1;
+  }
+}
+
+function warmStaticImages() {
+  eagerImageCandidates.forEach((src, index) => {
+    window.setTimeout(() => preloadImage(src), index * 40);
+  });
+}
+
+function scheduleUpcomingImageWarmup() {
+  idleCallback(() => {
+    warmUpcomingImages();
+  });
+}
+
+function scheduleStaticImageWarmup() {
+  idleCallback(() => {
+    warmStaticImages();
+  });
+}
+
 function getResolvedStepImage(step) {
   if (!step) {
     return '';
@@ -811,6 +892,7 @@ function renderFrame(content, step, options = {}) {
   `;
 
   bindEvents(step);
+  scheduleUpcomingImageWarmup();
 }
 
 function renderVisual(step, fallbackTitle, icon = '🖼️') {
@@ -822,7 +904,7 @@ function renderVisual(step, fallbackTitle, icon = '🖼️') {
     </div>
   `;
   const imageMarkup = step?.image
-    ? `<img src="${escapeHtml(step.image)}" alt="${escapeHtml(step.label)}" onerror="this.replaceWith(this.parentElement.querySelector('.placeholder-template').content.cloneNode(true))">`
+    ? `<img src="${escapeHtml(step.image)}" alt="${escapeHtml(step.label)}" decoding="async" fetchpriority="high" onerror="this.replaceWith(this.parentElement.querySelector('.placeholder-template').content.cloneNode(true))">`
     : '';
 
   return `
@@ -841,7 +923,7 @@ function renderVisualPair(images, fallbackTitle, icon = '🖼️') {
       const slotClass = index === 0 ? 'visual-pair-left' : 'visual-pair-right';
       return `
         <div class="visual-pair-slot ${slotClass}">
-          <img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" onerror="this.remove()">
+          <img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" decoding="async" fetchpriority="high" onerror="this.remove()">
         </div>
       `;
     })
@@ -869,7 +951,7 @@ function renderSwapVisualWithImage(imageSrc, alt, fallbackTitle, icon = '🖼️
         <div class="visual-swap-indicator" aria-label="入れ替え">🔄</div>
       </div>
       <div class="visual-pair-slot visual-pair-right">
-        <img src="${escapeHtml(imageSrc)}" alt="${escapeHtml(alt)}" onerror="this.remove()">
+        <img src="${escapeHtml(imageSrc)}" alt="${escapeHtml(alt)}" decoding="async" fetchpriority="high" onerror="this.remove()">
       </div>
     </div>
   `;
@@ -1113,3 +1195,4 @@ function canGoNext(step) {
 
 loadState();
 render();
+scheduleStaticImageWarmup();
